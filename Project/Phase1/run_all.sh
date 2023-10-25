@@ -1,4 +1,4 @@
 make clean
 make splc
-sh run.sh
-sh judge.sh
+sh github_run.sh
+sh github_judge.sh

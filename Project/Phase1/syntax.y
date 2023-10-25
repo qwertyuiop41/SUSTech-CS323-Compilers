@@ -91,7 +91,7 @@ ExtDef : Specifier ExtDecList SEMI  /* eg.int global1, global2;*/
         my_error(MISS_SEMI, @$.first_line);
         has_error=1;
     }
-        | error ExtDecList SEMI  /* eg.int global1, global2;*/
+    | error ExtDecList SEMI  /* eg.int global1, global2;*/
     {
         my_error(MISS_SPEC, @$.first_line);
         has_error=1;
@@ -137,6 +137,16 @@ StructSpecifier: STRUCT ID LC DefList RC  /*struct Complex { int real, image; }*
     {
         $$=new Node(NONTERMINAL, "StructSpecifier", 2, @$.first_line, $1, $2);
     }
+    | STRUCT ID LC DefList error /* + 1 shift/reduce conflict */
+    {
+        my_error(MISS_CURLY_BRACE, @$.first_line,'}');
+        has_error=1;
+    }
+    | STRUCT ID error DefList RC /* + 1 shift/reduce conflict */
+    {
+        my_error(MISS_CURLY_BRACE, @$.first_line,'{');
+        has_error=1;
+    }
 
 ;
 
@@ -171,6 +181,16 @@ FunDec: ID LP VarList RP /*foo(int x, float y[10])*/
     | ID LP error 
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
+        has_error=1;
+    }
+    | ID error VarList RB /* + 1 shift/reduce conflict */
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); 
+        has_error=1;
+    }
+    | ID error RB /* + 1 shift/reduce conflict */
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); 
         has_error=1;
     }
 ;
@@ -254,7 +274,15 @@ Stmt: Exp SEMI
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     }
+    | IF error Exp RP Stmt
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
+    }
     | WHILE LP Exp error Stmt 
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
+    }
+    | WHILE error Exp RP Stmt 
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     }
@@ -381,17 +409,25 @@ Exp: Exp ASSIGN Exp
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     } 
+    | ID error Args RP /* + 1 shift/reduce conflict */
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
+    } 
     | ID LP error 
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
         has_error=1;
     } 
-        | Exp LB Exp error 
+    | ID error RP 
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); 
+        has_error=1;
+    } 
+    | Exp LB Exp error 
     {
         my_error(MISS_BRACKET, @$.first_line,']'); 
         has_error=1;
     }
-    
     
 ;
 
