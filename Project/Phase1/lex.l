@@ -1,6 +1,7 @@
 %{
     #include "string.h"
     #include "stdlib.h"
+    #include <cstdlib>
     extern "C" int yylex();
     extern int has_error;
 %}
@@ -112,7 +113,21 @@ return STRUCT;}
 {RB} {yylval.node_ptr = new Node("RB"); return RB;}
 {LC} {yylval.node_ptr = new Node("LC"); return LC;}
 {RC} {yylval.node_ptr = new Node("RC"); return RC;}
-{INT} {yylval.node_ptr = new Node(Int, yytext, atoi(yytext)); return INT;}
+{INT} {
+    bool isHex = (yytext[0] == '0' && (yytext[1] == 'x' || yytext[1] == 'X'));
+    if (isHex) {
+        int temp=static_cast<int>(strtol(yytext, nullptr, 16));
+        yylval.node_ptr = new Node(Int, yytext, temp);
+
+    } else {
+        int temp=atoi(yytext);
+        yylval.node_ptr = new Node(Int, yytext, temp);
+    }
+
+    return INT;
+    yylval.node_ptr = new Node(Int, yytext, atoi(yytext)); 
+    return INT;
+    }
 {FLOAT} {yylval.node_ptr = new Node(Float, yytext, (float)atof(yytext)); return FLOAT;}
 {CHAR} {yylval.node_ptr = new Node(Char, yytext); return CHAR;}
 {WRONG_ID} {has_error=1; fprintf(stdout,"Error type A at Line %d: unknown lexeme %s\n",

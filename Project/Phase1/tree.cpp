@@ -64,7 +64,7 @@ void print(Node *node, int whiteSpace)
     }
     case Int:
     {
-        printf("INT: %s\n", node->name.c_str());
+        printf("INT: %d\n", node->int_value);
         break;
     }
     case Char:
@@ -74,7 +74,7 @@ void print(Node *node, int whiteSpace)
     }
     case Float:
     {
-        printf("FLOAT: %s\n", node->name.c_str());
+        printf("FLOAT: %.1f\n", node->float_value);
         break;
     }
     case Id:

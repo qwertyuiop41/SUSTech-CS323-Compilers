@@ -37,20 +37,17 @@ public:
     int nodes_num = 0;
     queue<Node*> children;
 
-    // 用于 bison
     explicit Node(NodeType nodetype, string name, int nodes_num, int line_num, ...);
-
-    // 用于 lex
-    // 用于 TERMINAL 
+    //terminal
     explicit Node(string name);
 
-    // 用于 CHAR, Id
+    //char,type,id
     explicit Node(NodeType nodetype, char* char_value);
 
-    // 用于INT
+    //int
     explicit Node(NodeType nodetype, string name, int int_value);
 
-    // 用于 FLOAT
+    //float
     explicit Node(NodeType nodetype, string name, float float_value);        
 };
 

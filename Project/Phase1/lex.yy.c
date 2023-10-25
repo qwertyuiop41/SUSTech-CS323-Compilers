@@ -602,10 +602,11 @@ char *yytext;
 #line 2 "lex.l"
     #include "string.h"
     #include "stdlib.h"
+    #include <cstdlib>
     extern "C" int yylex();
     extern int has_error;
-#line 608 "lex.yy.c"
-#line 8 "lex.l"
+#line 609 "lex.yy.c"
+#line 9 "lex.l"
     /* library inclusions */
     #include"syntax.tab.h"
     int yycolno = 1;
@@ -616,8 +617,8 @@ char *yytext;
     yylloc.last_line = yylineno; \
     yylloc.last_column = yycolno + yyleng; \
     yycolno += yyleng;
-#line 620 "lex.yy.c"
 #line 621 "lex.yy.c"
+#line 622 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -834,11 +835,11 @@ YY_DECL
 		}
 
 	{
-#line 74 "lex.l"
+#line 75 "lex.l"
 
 
 
-#line 842 "lex.yy.c"
+#line 843 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -910,218 +911,232 @@ case 1:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 77 "lex.l"
+#line 78 "lex.l"
 {}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 78 "lex.l"
+#line 79 "lex.l"
 {
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 81 "lex.l"
+#line 82 "lex.l"
 {yylval.node_ptr = new Node(Type, yytext);
 return TYPE;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 84 "lex.l"
+#line 85 "lex.l"
 {yylval.node_ptr = new Node("STRUCT");
 return STRUCT;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "lex.l"
+#line 89 "lex.l"
 {yylval.node_ptr = new Node("IF"); return IF;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 89 "lex.l"
+#line 90 "lex.l"
 { yylval.node_ptr = new Node("ELSE"); return ELSE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 90 "lex.l"
+#line 91 "lex.l"
 {yylval.node_ptr = new Node("WHILE"); return WHILE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 91 "lex.l"
+#line 92 "lex.l"
 {yylval.node_ptr = new Node("RETURN"); return RETURN;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 92 "lex.l"
+#line 93 "lex.l"
 {yylval.node_ptr = new Node("DOT"); return DOT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 93 "lex.l"
+#line 94 "lex.l"
 {yylval.node_ptr = new Node("SEMI"); return SEMI;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 94 "lex.l"
+#line 95 "lex.l"
 {yylval.node_ptr = new Node("COMMA"); return COMMA;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 95 "lex.l"
+#line 96 "lex.l"
 {yylval.node_ptr = new Node("ASSIGN"); return ASSIGN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 96 "lex.l"
+#line 97 "lex.l"
 {yylval.node_ptr = new Node("LT"); return LT;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 97 "lex.l"
+#line 98 "lex.l"
 {yylval.node_ptr = new Node("LE"); return LE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 98 "lex.l"
+#line 99 "lex.l"
 {yylval.node_ptr = new Node("GT"); return GT;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 99 "lex.l"
+#line 100 "lex.l"
 {yylval.node_ptr = new Node("GE"); return GE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 100 "lex.l"
+#line 101 "lex.l"
 {yylval.node_ptr = new Node("NE"); return NE;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 101 "lex.l"
+#line 102 "lex.l"
 {yylval.node_ptr = new Node("EQ"); return EQ;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 102 "lex.l"
+#line 103 "lex.l"
 {yylval.node_ptr = new Node("PLUS"); return PLUS;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 103 "lex.l"
+#line 104 "lex.l"
 {yylval.node_ptr = new Node("MINUS"); return MINUS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 104 "lex.l"
+#line 105 "lex.l"
 {yylval.node_ptr = new Node("MUL"); return MUL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 105 "lex.l"
+#line 106 "lex.l"
 {yylval.node_ptr = new Node("DIV"); return DIV;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 106 "lex.l"
+#line 107 "lex.l"
 {yylval.node_ptr = new Node("AND"); return AND;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 107 "lex.l"
+#line 108 "lex.l"
 {yylval.node_ptr = new Node("OR"); return OR;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 108 "lex.l"
+#line 109 "lex.l"
 {yylval.node_ptr = new Node("NOT"); return NOT;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 109 "lex.l"
+#line 110 "lex.l"
 {yylval.node_ptr = new Node("LP"); return LP;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 110 "lex.l"
+#line 111 "lex.l"
 {yylval.node_ptr = new Node("RP"); return RP;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 111 "lex.l"
+#line 112 "lex.l"
 {yylval.node_ptr = new Node("LB"); return LB;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 112 "lex.l"
+#line 113 "lex.l"
 {yylval.node_ptr = new Node("RB"); return RB;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 113 "lex.l"
+#line 114 "lex.l"
 {yylval.node_ptr = new Node("LC"); return LC;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 114 "lex.l"
+#line 115 "lex.l"
 {yylval.node_ptr = new Node("RC"); return RC;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 115 "lex.l"
-{yylval.node_ptr = new Node(Int, yytext, atoi(yytext)); return INT;}
+#line 116 "lex.l"
+{
+    bool isHex = (yytext[0] == '0' && (yytext[1] == 'x' || yytext[1] == 'X'));
+    if (isHex) {
+        int temp=static_cast<int>(strtol(yytext, nullptr, 16));
+        yylval.node_ptr = new Node(Int, yytext, temp);
+
+    } else {
+        int temp=atoi(yytext);
+        yylval.node_ptr = new Node(Int, yytext, temp);
+    }
+
+    return INT;
+    yylval.node_ptr = new Node(Int, yytext, atoi(yytext)); 
+    return INT;
+    }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 116 "lex.l"
+#line 131 "lex.l"
 {yylval.node_ptr = new Node(Float, yytext, (float)atof(yytext)); return FLOAT;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 117 "lex.l"
+#line 132 "lex.l"
 {yylval.node_ptr = new Node(Char, yytext); return CHAR;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 118 "lex.l"
+#line 133 "lex.l"
 {has_error=1; fprintf(stdout,"Error type A at Line %d: unknown lexeme %s\n",
                yylineno, yytext); return ID;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 120 "lex.l"
+#line 135 "lex.l"
 {yylval.node_ptr = new Node(Id, yytext); return ID;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 121 "lex.l"
+#line 136 "lex.l"
 {}
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 122 "lex.l"
+#line 137 "lex.l"
 { yycolno = 1; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 123 "lex.l"
+#line 138 "lex.l"
 {has_error=1; fprintf(stdout,"Error type A at Line %d: unknown lexeme %s\n",
                yylineno, yytext); return ILLEGAL_TOKEN;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 125 "lex.l"
+#line 140 "lex.l"
 {has_error=1; fprintf(stdout,"Error type A at Line %d: unknown lexeme %s\n",
                yylineno, yytext); return INVALID_NUMBER;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 127 "lex.l"
+#line 142 "lex.l"
 ECHO;
 	YY_BREAK
-#line 1125 "lex.yy.c"
+#line 1140 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2138,6 +2153,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 127 "lex.l"
+#line 142 "lex.l"
 
 
