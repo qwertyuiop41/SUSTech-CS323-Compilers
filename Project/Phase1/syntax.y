@@ -91,6 +91,21 @@ ExtDef : Specifier ExtDecList SEMI  /* eg.int global1, global2;*/
         my_error(MISS_SEMI, @$.first_line);
         has_error=1;
     }
+        | error ExtDecList SEMI  /* eg.int global1, global2;*/
+    {
+        my_error(MISS_SPEC, @$.first_line);
+        has_error=1;
+    }
+    | error SEMI /* eg.struct {…};*/
+    {   
+        my_error(MISS_SPEC, @$.first_line);
+        has_error=1;
+    }
+    | error FunDec CompSt /* CompSt:function body*/
+    {
+        my_error(MISS_SPEC, @$.first_line);
+        has_error=1;
+    }
 ;
 
 ExtDecList: VarDec 
