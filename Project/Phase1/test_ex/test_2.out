@@ -1,0 +1,7 @@
+File inclusions at Line 1: #include "tree.hpp"
+File inclusions at Line 2: #include "lex.yy.c"
+Lib inclusions at Line 3: #include <stdio.h>
+File inclusions at Line 4: #include "stdlib.h"
+Lib inclusions at Line 5: #include <string.h>
+Error type A at Line 10: unknown lexeme ?
+Error type B at Line 9: Missing specifier

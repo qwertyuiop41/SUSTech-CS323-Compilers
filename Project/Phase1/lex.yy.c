@@ -928,8 +928,8 @@ YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
 #line 81 "lex.l"
 {
-    printf("%s\n","Comment:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Comment at Line %d: %s\n",
+               yylineno, yytext);
 }
 	YY_BREAK
 case 2:
@@ -937,24 +937,24 @@ case 2:
 YY_RULE_SETUP
 #line 85 "lex.l"
 {
-    printf("%s\n","Multiple comment:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Multiple comment at Line %d: %s\n",
+               yylineno, yytext);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 89 "lex.l"
 {
-    printf("%s\n","Include file:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"File inclusions at Line %d: %s\n",
+               yylineno, yytext);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 93 "lex.l"
 {
-    printf("%s\n","Include library:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Lib inclusions at Line %d: %s\n",
+               yylineno, yytext);
 }
 	YY_BREAK
 case 5:

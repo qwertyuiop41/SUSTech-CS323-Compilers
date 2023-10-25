@@ -1,0 +1,12 @@
+#include "tree.hpp"
+#include "lex.yy.c"
+#include <stdio.h>
+#include "stdlib.h"
+#include <string.h>
+
+int main() {
+    int num1 = 10;
+    num2 = 20;
+    int sum = num1 ? num2;
+
+}

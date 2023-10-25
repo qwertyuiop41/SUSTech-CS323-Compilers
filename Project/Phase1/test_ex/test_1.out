@@ -1,99 +1,98 @@
-Program (2)
-  ExtDefList (2)
-    ExtDef (2)
-      Specifier (2)
+Multiple comment at Line 4: /* 
+test comment
+and for loop
+ */
+Comment at Line 9: //test for
+Program (5)
+  ExtDefList (5)
+    ExtDef (5)
+      Specifier (5)
         TYPE: int
-      FunDec (2)
+      FunDec (5)
         ID: test_1
         LP
-        VarList (2)
-          ParamDec (2)
-            Specifier (2)
-              TYPE: int
-            VarDec (2)
-              ID: n
         RP
-      CompSt (2)
+      CompSt (5)
         LC
-        DefList (3)
-          Def (3)
-            Specifier (3)
+        DefList (6)
+          Def (6)
+            Specifier (6)
               TYPE: int
-            DecList (3)
-              Dec (3)
-                VarDec (3)
-                  ID: res
+            DecList (6)
+              Dec (6)
+                VarDec (6)
+                  ID: ans
                 ASSIGN
-                Exp (3)
+                Exp (6)
                   INT: 0
             SEMI
-          DefList (4)
-            Def (4)
-              Specifier (4)
+          DefList (7)
+            Def (7)
+              Specifier (7)
                 TYPE: int
-              DecList (4)
-                Dec (4)
-                  VarDec (4)
+              DecList (7)
+                Dec (7)
+                  VarDec (7)
                     ID: i
                   ASSIGN
-                  Exp (4)
+                  Exp (7)
                     INT: 0
               SEMI
-            DefList (5)
-              Def (5)
-                Specifier (5)
+            DefList (8)
+              Def (8)
+                Specifier (8)
                   TYPE: int
-                DecList (5)
-                  Dec (5)
-                    VarDec (5)
+                DecList (8)
+                  Dec (8)
+                    VarDec (8)
                       ID: n
                     ASSIGN
-                    Exp (5)
+                    Exp (8)
                       INT: 5
                 SEMI
-        StmtList (6)
-          Stmt (6)
+        StmtList (10)
+          Stmt (10)
             FOR
             LP
-            Exp (6)
-              Exp (6)
+            Exp (10)
+              Exp (10)
                 ID: i
               ASSIGN
-              Exp (6)
+              Exp (10)
                 INT: 0
             SEMI
-            Exp (6)
-              Exp (6)
+            Exp (10)
+              Exp (10)
                 ID: i
               LT
-              Exp (6)
+              Exp (10)
                 ID: n
             SEMI
-            Exp (6)
-              Exp (6)
+            Exp (10)
+              Exp (10)
                 ID: i
               ASSIGN
-              Exp (6)
-                Exp (6)
+              Exp (10)
+                Exp (10)
                   ID: i
                 PLUS
-                Exp (6)
+                Exp (10)
                   INT: 1
             RP
-            Stmt (6)
-              CompSt (6)
+            Stmt (10)
+              CompSt (10)
                 LC
-                StmtList (7)
-                  Stmt (7)
-                    Exp (7)
-                      Exp (7)
-                        ID: res
+                StmtList (11)
+                  Stmt (11)
+                    Exp (11)
+                      Exp (11)
+                        ID: ans
                       ASSIGN
-                      Exp (7)
-                        Exp (7)
-                          ID: res
+                      Exp (11)
+                        Exp (11)
+                          ID: ans
                         PLUS
-                        Exp (7)
+                        Exp (11)
                           ID: i
                     SEMI
                 RC

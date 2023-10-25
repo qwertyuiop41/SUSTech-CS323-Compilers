@@ -79,20 +79,20 @@ INCLUDE_LIB #include[ \t]+"<"[^\n]*">"
 
 
 {COMMENT} {
-    printf("%s\n","Comment:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Comment at Line %d: %s\n",
+               yylineno, yytext);
 }
 {MULTIPLE_COMMENT} {
-    printf("%s\n","Multiple comment:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Multiple comment at Line %d: %s\n",
+               yylineno, yytext);
 }
 {INCLUDE_FILE} {
-    printf("%s\n","Include file:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"File inclusions at Line %d: %s\n",
+               yylineno, yytext);
 }
 {INCLUDE_LIB} {
-    printf("%s\n","Include library:");
-    printf("%s\n",yytext);
+    fprintf(stdout,"Lib inclusions at Line %d: %s\n",
+               yylineno, yytext);
 }
 
 {TYPE} {yylval.node_ptr = new Node(Type, yytext);
