@@ -1,0 +1,66 @@
+syntax.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
+syntax.y: warning: shift/reduce conflict on token error [-Wcounterexamples]
+  First example: Specifier FunDec LC • error DecList SEMI DefList StmtList RC $end
+  Shift derivation
+    $accept
+    ↳ 0: Program                                                                                  $end
+         ↳ 1: ExtDef
+              ↳ 6: Specifier FunDec CompSt
+                                    ↳ 30: LC DefList                                  StmtList RC
+                                             ↳ 46: Def                        DefList
+                                                   ↳ 49: • error DecList SEMI
+  Second example: Specifier FunDec LC • StmtList error ExtDefList $end
+  Reduce derivation
+    $accept
+    ↳ 0: Program                                                                      $end
+         ↳ 1: ExtDefList
+              ↳ 3: ExtDef                                                  ExtDefList
+                   ↳ 6: Specifier FunDec CompSt
+                                         ↳ 31: LC DefList   StmtList error
+                                                  ↳ 45: ε •
+syntax.y: warning: shift/reduce conflict on token error [-Wcounterexamples]
+time limit exceeded: 6.000000
+  First example: STRUCT ID LC • error DecList SEMI DefList RC ExtDecList SEMI ExtDefList $end
+  Shift derivation
+    $accept
+    ↳ 0: Program                                                                                                        $end
+         ↳ 1: ExtDefList
+              ↳ 3: ExtDef                                                                                    ExtDefList
+                   ↳ 4: Specifier                                                            ExtDecList SEMI
+                        ↳ 15: StructSpecifier
+                              ↳ 16: STRUCT ID LC DefList                                  RC
+                                                 ↳ 46: Def                        DefList
+                                                       ↳ 49: • error DecList SEMI
+  Second example: STRUCT ID LC • error ExtDecList SEMI ExtDefList $end
+  Reduce derivation
+    $accept
+    ↳ 0: Program                                                                            $end
+         ↳ 1: ExtDefList
+              ↳ 3: ExtDef                                                        ExtDefList
+                   ↳ 4: Specifier                                ExtDecList SEMI
+                        ↳ 15: StructSpecifier
+                              ↳ 18: STRUCT ID LC DefList   error
+                                                 ↳ 45: ε •
+syntax.y: warning: shift/reduce conflict on token error [-Wcounterexamples]
+time limit exceeded: 6.000000
+  First example: Specifier FunDec Def • error DecList SEMI DefList DefList StmtList error ExtDefList $end
+  Shift derivation
+    $accept
+    ↳ 0: Program                                                                                                                    $end
+         ↳ 1: ExtDefList
+              ↳ 3: ExtDef                                                                                                ExtDefList
+                   ↳ 6: Specifier FunDec CompSt
+                                         ↳ 31: DefList                                            DefList StmtList error
+                                               ↳ 46: Def DefList
+                                                         ↳ 46: Def                        DefList
+                                                               ↳ 49: • error DecList SEMI
+  Second example: Specifier FunDec LC Def • StmtList error ExtDefList $end
+  Reduce derivation
+    $accept
+    ↳ 0: Program                                                                                $end
+         ↳ 1: ExtDefList
+              ↳ 3: ExtDef                                                            ExtDefList
+                   ↳ 6: Specifier FunDec CompSt
+                                         ↳ 31: LC DefList             StmtList error
+                                                  ↳ 46: Def DefList
+                                                            ↳ 45: ε •
