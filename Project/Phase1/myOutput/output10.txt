@@ -1,5 +1,1 @@
-Error type B at Line 2: Missing closing brace '}'
-Error type B at Line 5: Missing semicolon ';'
-Error type B at Line 5: Missing specifier  
-Error type B at Line 6: Missing specifier  
-Error type B at Line 9: Missing specifier  
+Error type B at Line 4: Missing specifier

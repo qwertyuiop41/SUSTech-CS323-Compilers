@@ -21,7 +21,7 @@ void my_error(MY_ERROR_TYPE type, int line_num, char content) {
             break;
         }
         case MISS_SPEC: {
-            printf("Error type B at Line %d: Missing specifier  \n", line_num);
+            printf("Error type B at Line %d: Missing specifier\n", line_num);
             break;
         }
     }

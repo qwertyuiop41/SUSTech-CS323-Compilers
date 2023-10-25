@@ -23,7 +23,7 @@ splc:
 	@mkdir myOutput
 	touch bin/splc
 	@chmod +x bin/splc
-	$(BISON) -d syntax.y
+	$(BISON) -d syntax.y -v
 	$(FLEX) lex.l
 	$(GPP) syntax.tab.c tree.cpp my_error.cpp -lfl -o bin/splc 
 

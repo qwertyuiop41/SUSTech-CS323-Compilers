@@ -55,43 +55,44 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     ILLEGAL_TOKEN = 258,           /* ILLEGAL_TOKEN  */
-    TYPE = 259,                    /* TYPE  */
-    INT = 260,                     /* INT  */
-    CHAR = 261,                    /* CHAR  */
-    FLOAT = 262,                   /* FLOAT  */
-    STRUCT = 263,                  /* STRUCT  */
-    ID = 264,                      /* ID  */
-    IF = 265,                      /* IF  */
-    WHILE = 266,                   /* WHILE  */
-    RETURN = 267,                  /* RETURN  */
-    COMMA = 268,                   /* COMMA  */
-    ASSIGN = 269,                  /* ASSIGN  */
-    OR = 270,                      /* OR  */
-    AND = 271,                     /* AND  */
-    LT = 272,                      /* LT  */
-    LE = 273,                      /* LE  */
-    GT = 274,                      /* GT  */
-    GE = 275,                      /* GE  */
-    NE = 276,                      /* NE  */
-    EQ = 277,                      /* EQ  */
-    PLUS = 278,                    /* PLUS  */
-    MINUS = 279,                   /* MINUS  */
-    MUL = 280,                     /* MUL  */
-    DIV = 281,                     /* DIV  */
-    NOT = 282,                     /* NOT  */
-    DOT = 283,                     /* DOT  */
-    LP = 284,                      /* LP  */
-    RP = 285,                      /* RP  */
-    LB = 286,                      /* LB  */
-    RB = 287,                      /* RB  */
-    ELSE = 288,                    /* ELSE  */
-    SEMI = 289,                    /* SEMI  */
-    LC = 290,                      /* LC  */
-    RC = 291,                      /* RC  */
-    INVALID_CHAR = 292,            /* INVALID_CHAR  */
-    WRONG_ID = 293,                /* WRONG_ID  */
-    UNKNOWN_CHAR = 294,            /* UNKNOWN_CHAR  */
-    INVALID_NUMBER = 295           /* INVALID_NUMBER  */
+    LOWER_THAN_ELSE = 259,         /* LOWER_THAN_ELSE  */
+    ELSE = 260,                    /* ELSE  */
+    TYPE = 261,                    /* TYPE  */
+    INT = 262,                     /* INT  */
+    CHAR = 263,                    /* CHAR  */
+    FLOAT = 264,                   /* FLOAT  */
+    STRUCT = 265,                  /* STRUCT  */
+    ID = 266,                      /* ID  */
+    IF = 267,                      /* IF  */
+    WHILE = 268,                   /* WHILE  */
+    RETURN = 269,                  /* RETURN  */
+    COMMA = 270,                   /* COMMA  */
+    ASSIGN = 271,                  /* ASSIGN  */
+    OR = 272,                      /* OR  */
+    AND = 273,                     /* AND  */
+    LT = 274,                      /* LT  */
+    LE = 275,                      /* LE  */
+    GT = 276,                      /* GT  */
+    GE = 277,                      /* GE  */
+    NE = 278,                      /* NE  */
+    EQ = 279,                      /* EQ  */
+    PLUS = 280,                    /* PLUS  */
+    MINUS = 281,                   /* MINUS  */
+    MUL = 282,                     /* MUL  */
+    DIV = 283,                     /* DIV  */
+    NOT = 284,                     /* NOT  */
+    DOT = 285,                     /* DOT  */
+    LP = 286,                      /* LP  */
+    RP = 287,                      /* RP  */
+    LB = 288,                      /* LB  */
+    RB = 289,                      /* RB  */
+    SEMI = 290,                    /* SEMI  */
+    LC = 291,                      /* LC  */
+    RC = 292,                      /* RC  */
+    INVALID_CHAR = 293,            /* INVALID_CHAR  */
+    WRONG_ID = 294,                /* WRONG_ID  */
+    UNKNOWN_CHAR = 295,            /* UNKNOWN_CHAR  */
+    INVALID_NUMBER = 296           /* INVALID_NUMBER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -100,11 +101,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "syntax.y"
+#line 14 "syntax.y"
 
     Node* node_ptr;
 
-#line 108 "syntax.tab.h"
+#line 109 "syntax.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

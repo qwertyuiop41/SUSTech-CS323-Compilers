@@ -10,12 +10,15 @@
 %}
 %locations
 
+/* declared types */
 %union{
     Node* node_ptr;
 }
 
+/* declared tokens */
 %nonassoc <node_ptr> ILLEGAL_TOKEN
-
+%nonassoc LOWER_THAN_ELSE
+%nonassoc <node_ptr> ELSE
 
 %token <node_ptr> TYPE INT CHAR FLOAT STRUCT ID
 %token <node_ptr> IF WHILE RETURN
@@ -32,15 +35,13 @@
 %left <node_ptr> MUL DIV 
 %right <node_ptr> NOT
 %left <node_ptr> DOT LP RP LB RB 
-%left <node_ptr> ELSE
-
 
 %token <node_ptr> SEMI LC RC 
+
 /*ERROR*/
 %token <node_ptr> INVALID_CHAR WRONG_ID UNKNOWN_CHAR INVALID_NUMBER 
 
-
-/* Non terminal */
+/* declared non-terminal */
 %type <node_ptr> Program ExtDefList ExtDef ExtDecList
 %type <node_ptr> Specifier StructSpecifier 
 %type <node_ptr> VarDec FunDec VarList ParamDec CompSt StmtList
@@ -90,21 +91,6 @@ ExtDef : Specifier ExtDecList SEMI  /* eg.int global1, global2;*/
         my_error(MISS_SEMI, @$.first_line);
         has_error=1;
     }
-    | error ExtDecList SEMI  /* eg.int global1, global2;*/
-    {
-        my_error(MISS_SPEC, @$.first_line);
-        has_error=1;
-    }
-    | error SEMI /* eg.struct {…};*/
-    {   
-        my_error(MISS_SPEC, @$.first_line);
-        has_error=1;
-    }
-    | error FunDec CompSt /* CompSt:function body*/
-    {
-        my_error(MISS_SPEC, @$.first_line);
-        has_error=1;
-    }
 ;
 
 ExtDecList: VarDec 
@@ -136,11 +122,7 @@ StructSpecifier: STRUCT ID LC DefList RC  /*struct Complex { int real, image; }*
     {
         $$=new Node(NONTERMINAL, "StructSpecifier", 2, @$.first_line, $1, $2);
     }
-    | STRUCT ID LC DefList error 
-    {
-        my_error(MISS_CURLY_BRACE, @$.first_line,'}');
-        has_error=1;
-    }
+
 ;
 
 /* declarator */
@@ -205,11 +187,7 @@ CompSt: LC DefList StmtList RC
     {
         $$=new Node(NONTERMINAL, "CompSt", 4, @$.first_line, $1, $2, $3, $4);
     }
-    | LC DefList StmtList error 
-    {
-        my_error(MISS_CURLY_BRACE, @$.first_line,'}'); 
-        has_error=1;
-    }
+
 
 ;
 
@@ -227,11 +205,6 @@ Stmt: Exp SEMI
     {
         $$=new Node(NONTERMINAL, "Stmt", 2, @$.first_line, $1, $2);
     }
-    | Exp error 
-    {
-        my_error(MISS_SEMI, @$.first_line); 
-        has_error=1;
-    }
     | CompSt 
     {
         $$=new Node(NONTERMINAL, "Stmt", 1, @$.first_line, $1);
@@ -240,46 +213,35 @@ Stmt: Exp SEMI
     {
         $$=new Node(NONTERMINAL, "Stmt", 3, @$.first_line, $1, $2, $3);
     }
-    | RETURN Exp error 
-    {
-        my_error(MISS_SEMI, @$.first_line);
-        has_error=1;
-    }
-    | IF LP Exp RP Stmt
+    | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE
     {
         $$=new Node(NONTERMINAL, "Stmt", 5, @$.first_line, $1, $2, $3, $4, $5);
-    }
-    | IF LP Exp error Stmt
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
-    }
-     | IF error Exp RP Stmt
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
     }
     | IF LP Exp RP Stmt ELSE Stmt 
     {
         $$=new Node(NONTERMINAL, "Stmt", 7, @$.first_line, $1, $2, $3, $4, $5, $6, $7);
     }
-    | IF LP Exp error Stmt ELSE Stmt 
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
-    }
-    | IF error Exp RP Stmt ELSE Stmt 
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
-    }
     | WHILE LP Exp RP Stmt 
     {
         $$=new Node(NONTERMINAL, "Stmt", 5, @$.first_line, $1, $2, $3, $4, $5);
     }
-    | WHILE LP Exp error Stmt 
+    | Exp error 
+    {
+        my_error(MISS_SEMI, @$.first_line); 
+        has_error=1;
+    }
+    | RETURN Exp error 
+    {
+        my_error(MISS_SEMI, @$.first_line);
+        has_error=1;
+    }
+    | IF LP Exp error Stmt
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     }
-    | WHILE error Exp RP Stmt 
+    | WHILE LP Exp error Stmt 
     {
-        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
+        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     }
 ;
 
@@ -359,12 +321,6 @@ Exp: Exp ASSIGN Exp
 
     | LP Exp RP 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
-    | LP Exp error 
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
-        has_error=1;
-    } 
-
     | MINUS Exp 
     {$$=new Node(NONTERMINAL, "Exp", 2, @$.first_line, $1, $2);}
     | NOT Exp 
@@ -372,26 +328,12 @@ Exp: Exp ASSIGN Exp
     
     | ID LP Args RP 
     {$$=new Node(NONTERMINAL, "Exp", 4, @$.first_line, $1, $2, $3, $4);}
-    | ID LP Args error 
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
-    } 
 
     | ID LP RP  
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
-    | ID LP error 
-    {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
-        has_error=1;
-    } 
     
     | Exp LB Exp RB 
     {$$=new Node(NONTERMINAL, "Exp", 4, @$.first_line, $1, $2, $3, $4);}
-    | Exp LB Exp error 
-    {
-        my_error(MISS_BRACKET, @$.first_line,']'); 
-        has_error=1;
-    }
     
     | Exp DOT ID 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
@@ -415,7 +357,25 @@ Exp: Exp ASSIGN Exp
     {
         has_error = 1;
     }
-    
+    | LP Exp error 
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
+        has_error=1;
+    } 
+    | ID LP Args error 
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
+    } 
+    | ID LP error 
+    {
+        my_error(MISS_PAREMTHESIS, @$.first_line,')'); 
+        has_error=1;
+    } 
+        | Exp LB Exp error 
+    {
+        my_error(MISS_BRACKET, @$.first_line,']'); 
+        has_error=1;
+    }
     
     
 ;
