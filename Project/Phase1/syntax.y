@@ -21,7 +21,7 @@
 %nonassoc <node_ptr> ELSE
 
 %token <node_ptr> TYPE INT CHAR FLOAT STRUCT ID
-%token <node_ptr> IF WHILE RETURN
+%token <node_ptr> IF WHILE RETURN FOR
 
 %token<node_ptr> COMMA
 
@@ -240,6 +240,10 @@ Stmt: Exp SEMI
     {
         $$=new Node(NONTERMINAL, "Stmt", 5, @$.first_line, $1, $2, $3, $4, $5);
     }
+    | FOR LP Exp SEMI Exp SEMI Exp RP Stmt
+    {
+        $$=new Node(NONTERMINAL, "Stmt", 9, @$.first_line, $1, $2, $3, $4, $5, $6, $7, $8, $9);
+    }
     | Exp error 
     {
         my_error(MISS_SEMI, @$.first_line); 
@@ -265,6 +269,14 @@ Stmt: Exp SEMI
     | WHILE error Exp RP Stmt 
     {
         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
+    }
+    | FOR error Exp SEMI Exp SEMI Exp RP Stmt
+    {
+         my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
+    }
+    | FOR LP Exp SEMI Exp SEMI Exp error Stmt
+    {
+         my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
     }
 ;
 

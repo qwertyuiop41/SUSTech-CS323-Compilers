@@ -26,6 +26,7 @@ IF "if"
 ELSE "else"
 WHILE "while"
 RETURN "return"
+FOR "for"
 DOT "."
 SEMI ";"
 COMMA ","
@@ -105,6 +106,7 @@ return STRUCT;}
 {ELSE} { yylval.node_ptr = new Node("ELSE"); return ELSE;}
 {WHILE} {yylval.node_ptr = new Node("WHILE"); return WHILE;}
 {RETURN} {yylval.node_ptr = new Node("RETURN"); return RETURN;}
+{FOR} {yylval.node_ptr = new Node("FOR"); return FOR;}
 {DOT} {yylval.node_ptr = new Node("DOT"); return DOT;}
 {SEMI} {yylval.node_ptr = new Node("SEMI"); return SEMI;}
 {COMMA} {yylval.node_ptr = new Node("COMMA"); return COMMA;}
