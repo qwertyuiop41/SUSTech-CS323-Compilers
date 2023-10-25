@@ -1,0 +1,10 @@
+echo In test1
+diff custom_output/output1.txt custom_test/t01.out
+echo In test2
+diff custom_output/output2.txt custom_test/t02.out
+echo In test3
+diff custom_output/output3.txt custom_test/t03.out
+echo In test4
+diff custom_output/output4.txt custom_test/t04.out
+echo In test5
+diff custom_output/output5.txt custom_test/t05.out
