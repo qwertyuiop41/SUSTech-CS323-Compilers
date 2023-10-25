@@ -1,0 +1,14 @@
+#include "tree.hpp"
+#include "lex.yy.c"
+#include <stdio.h>
+//for loop
+/* multi-line comment
+ test */
+int test_1(int n){
+    int res = 0;
+    int i = 0;
+    int n = 5;
+    for (i =0; i < n; i = i + 1){
+        res = res + i;
+    } 
+}

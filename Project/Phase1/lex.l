@@ -70,13 +70,28 @@ COMMENT "//".*$
 MULTIPLE_COMMENT "/*"((("*"[^/])?)|[^*])*"*/" 
 ILLEGAL_TOKEN [^\x20^\n^\x09]
 INVALID_NUMBER ([+-]?0x[0-9g-zF-Z]*)|(00+)
+INCLUDE_FILE #include[ \t]+"\""[^\n]*"\""
+INCLUDE_LIB #include[ \t]+"<"[^\n]*">"
 
 
 %%
 
 
-{COMMENT} {}
+{COMMENT} {
+    printf("%s\n","Comment:");
+    printf("%s\n",yytext);
+}
 {MULTIPLE_COMMENT} {
+    printf("%s\n","Multiple comment:");
+    printf("%s\n",yytext);
+}
+{INCLUDE_FILE} {
+    printf("%s\n","Include file:");
+    printf("%s\n",yytext);
+}
+{INCLUDE_LIB} {
+    printf("%s\n","Include library:");
+    printf("%s\n",yytext);
 }
 
 {TYPE} {yylval.node_ptr = new Node(Type, yytext);

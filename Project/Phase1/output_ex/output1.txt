@@ -1,0 +1,14 @@
+Include file:
+#include "tree.hpp"
+Include file:
+#include "lex.yy.c"
+Include library:
+#include <stdio.h>
+Comment:
+//for loop
+Multiple comment:
+/* multi-line comment
+ test */
+Error type B at Line 11: Missing closing parenthesis ')'
+Error type B at Line 11: Missing semicolon ';'
+Error type B at Line 9: Missing specifier
