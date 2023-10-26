@@ -1,0 +1,11 @@
+struct friends
+int main()
+{
+int a=4-2;
+	
+}
+int t(){
+	if(1+2*7+3==2){
+    return 0;
+  }
+}

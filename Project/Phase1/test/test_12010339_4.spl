@@ -1,0 +1,13 @@
+struct struct_1
+{
+  char name;
+  float value[10];
+};
+int test(int num)
+{
+  struct_1 s1;
+  s1.name = 's';
+  if(1>=0){
+    s1.value[1 = 200.3;
+  }
+}

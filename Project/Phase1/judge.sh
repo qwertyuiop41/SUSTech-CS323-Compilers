@@ -1,4 +1,10 @@
 echo In test1
-diff output_ex/output1.txt test_ex/test_1.out
+diff output/output1.txt test/test_12010339_1.out
 echo In test2
-diff output_ex/output2.txt test_ex/test_2.out
+diff output/output2.txt test/test_12010339_2.out
+echo In test3
+diff output/output3.txt test/test_12010339_3.out
+echo In test4
+diff output/output4.txt test/test_12010339_4.out
+echo In test5
+diff output/output5.txt test/test_12010339_5.out

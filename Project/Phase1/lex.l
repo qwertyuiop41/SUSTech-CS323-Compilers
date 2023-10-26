@@ -57,20 +57,21 @@ letter_[a-zA-Z_]
 digit[0-9]
 pos_digit[1-9]
 hex_digit [0-9a-fA-F]
+pos_hex_digit[1-9a-fA-F]
 
 decimal [+-]?(0|{pos_digit}{digit}*)
-hexadecimal [+-]?((0x)|(0X))({hex_digit}+)
+hexadecimal [+-]?((0x)|(0X))(0|{pos_hex_digit}{hex_digit}*)
 
 ID {letter_}+({letter_}|{digit})*
 INT {decimal}|{hexadecimal}
-FLOAT ({digit}+.{digit}+)
+FLOAT [+-]?((0|{pos_digit}{digit}*)(\.){digit}+)
 CHAR \'(\\x{hex_digit}{2}|.)\'
 INVALID_CHAR \'.*\'
 WRONG_ID ({INT}{ID})|{INVALID_CHAR}
 COMMENT "//".*$
 MULTIPLE_COMMENT "/*"((("*"[^/])?)|[^*])*"*/" 
 ILLEGAL_TOKEN [^\x20^\n^\x09]
-INVALID_NUMBER ([+-]?0x[0-9g-zF-Z]*)|(00+)
+INVALID_NUMBER ([+-]?(0x|0X)[0-9g-zF-Z]*)|(00+[0-9]*)|((00+)(\.){digit}+)
 INCLUDE_FILE #include[ \t]+"\""[^\n]*"\""
 INCLUDE_LIB #include[ \t]+"<"[^\n]*">"
 

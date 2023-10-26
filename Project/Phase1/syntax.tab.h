@@ -82,11 +82,11 @@ extern int yydebug;
     MUL = 283,                     /* MUL  */
     DIV = 284,                     /* DIV  */
     NOT = 285,                     /* NOT  */
-    DOT = 286,                     /* DOT  */
-    LP = 287,                      /* LP  */
-    RP = 288,                      /* RP  */
-    LB = 289,                      /* LB  */
-    RB = 290,                      /* RB  */
+    LP = 286,                      /* LP  */
+    RP = 287,                      /* RP  */
+    LB = 288,                      /* LB  */
+    RB = 289,                      /* RB  */
+    DOT = 290,                     /* DOT  */
     SEMI = 291,                    /* SEMI  */
     LC = 292,                      /* LC  */
     RC = 293,                      /* RC  */

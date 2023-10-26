@@ -33,8 +33,8 @@
 %left <node_ptr> LT LE GT GE NE EQ 
 %left <node_ptr> PLUS MINUS 
 %left <node_ptr> MUL DIV 
-%right <node_ptr> NOT
-%left <node_ptr> DOT LP RP LB RB 
+%right <node_ptr> NOT LP RP LB RB
+%left <node_ptr> DOT 
 
 %token <node_ptr> SEMI LC RC 
 
@@ -44,8 +44,10 @@
 /* declared non-terminal */
 %type <node_ptr> Program ExtDefList ExtDef ExtDecList
 %type <node_ptr> Specifier StructSpecifier 
-%type <node_ptr> VarDec FunDec VarList ParamDec CompSt StmtList
-%type <node_ptr> Stmt DefList Def DecList Dec Exp Args
+%type <node_ptr> VarDec FunDec VarList ParamDec
+%type <node_ptr> CompSt StmtList Stmt
+%type <node_ptr> DefList Def DecList Dec 
+%type <node_ptr> Exp Args
 
 %%
 /* high-level definition */
@@ -243,11 +245,6 @@ Stmt: Exp SEMI
     | FOR LP Exp SEMI Exp SEMI Exp RP Stmt
     {
         $$=new Node(NONTERMINAL, "Stmt", 9, @$.first_line, $1, $2, $3, $4, $5, $6, $7, $8, $9);
-    }
-    | Exp error 
-    {
-        my_error(MISS_SEMI, @$.first_line); 
-        has_error=1;
     }
     | RETURN Exp error 
     {
