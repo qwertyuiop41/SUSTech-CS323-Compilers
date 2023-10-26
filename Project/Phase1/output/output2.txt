@@ -100,24 +100,53 @@ Program (1)
                   RC
             StmtList (14)
               Stmt (14)
-                RETURN
+                WHILE
+                LP
                 Exp (14)
                   Exp (14)
-                    Exp (14)
-                      Exp (14)
-                        ID: a
-                      MUL
-                      Exp (14)
-                        ID: b
-                    MUL
-                    Exp (14)
-                      ID: c
-                  MINUS
+                    ID: a
+                  GT
                   Exp (14)
                     Exp (14)
-                      ID: c
-                    DIV
+                      ID: b
+                    PLUS
                     Exp (14)
-                      ID: a
-                SEMI
+                      ID: c
+                RP
+                Stmt (14)
+                  CompSt (14)
+                    LC
+                    StmtList (15)
+                      Stmt (15)
+                        RETURN
+                        Exp (15)
+                          Exp (15)
+                            ID: b
+                          MINUS
+                          Exp (15)
+                            ID: c
+                        SEMI
+                    RC
+              StmtList (17)
+                Stmt (17)
+                  RETURN
+                  Exp (17)
+                    Exp (17)
+                      Exp (17)
+                        Exp (17)
+                          ID: a
+                        MUL
+                        Exp (17)
+                          ID: b
+                      MUL
+                      Exp (17)
+                        ID: c
+                    MINUS
+                    Exp (17)
+                      Exp (17)
+                        ID: c
+                      DIV
+                      Exp (17)
+                        ID: a
+                  SEMI
         RC

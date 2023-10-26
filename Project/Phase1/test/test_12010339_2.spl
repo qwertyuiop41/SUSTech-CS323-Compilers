@@ -11,6 +11,9 @@ int test(int a, int b, int c)
   else{
     return a;
   }
+  while(a>b+c){
+    return b-c;
+  }
   return a*b*c-c/a;
   
 }

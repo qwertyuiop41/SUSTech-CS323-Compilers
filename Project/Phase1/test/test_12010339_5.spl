@@ -1,11 +1,17 @@
-struct friends
-int main()
+int global;
+struct my_struct
 {
-int a=4-2;
-	
+  int code;
+  char data;
+};
+int test()
+{
+  struct my_struct obj;
+  obj.code = global;
+  global = global+ 1*4*3/2;
 }
 int t(){
-	if(1+2*7+3==2){
-    return 0;
-  }
+	if(a==8/2*3){
+		return 0;
+	}
 }
