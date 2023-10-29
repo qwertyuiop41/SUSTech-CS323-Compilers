@@ -20,7 +20,8 @@ CXX_VERSION = -std=c++17
 # 	./print.out test/test_1_r01.spl > output.txt
 splc:
 	@mkdir bin
-	@mkdir myOutput
+	@mkdir output
+	@mkdir output_ex
 	touch bin/splc
 	@chmod +x bin/splc
 	$(BISON) -d syntax.y -v
@@ -28,5 +29,5 @@ splc:
 	$(GPP) syntax.tab.c tree.cpp my_error.cpp -lfl -o bin/splc 
 
 clean:	
-	@rm -rf bin lex.yy.c syntax.tab.c syntax.tab.h *.out output.txt myOutput
+	@rm -rf bin lex.yy.c syntax.tab.c syntax.tab.h *.out output.txt output output_ex
 .PHONY: splc
