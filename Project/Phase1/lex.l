@@ -71,7 +71,7 @@ WRONG_ID ({INT}{ID})|{INVALID_CHAR}
 COMMENT "//".*$
 MULTIPLE_COMMENT "/*"((("*"[^/])?)|[^*])*"*/" 
 ILLEGAL_TOKEN [^\x20^\n^\x09]
-INVALID_NUMBER ([+-]?(0x|0X)[0-9g-zF-Z]*)|(00+[0-9]*)|((00+)(\.){digit}+)
+INVALID_NUMBER ([+-]?(0x|0X)[0-9g-zF-Z]*)|(0[0-9]+)|((00+)(\.){digit}+)
 INCLUDE_FILE #include[ \t]+"\""[^\n]*"\""
 INCLUDE_LIB #include[ \t]+"<"[^\n]*">"
 

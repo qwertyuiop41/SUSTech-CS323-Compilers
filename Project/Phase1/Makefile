@@ -22,6 +22,8 @@ splc:
 	@mkdir bin
 	@mkdir output
 	@mkdir output_ex
+	@mkdir github_output
+	@mkdir extra_output
 	touch bin/splc
 	@chmod +x bin/splc
 	$(BISON) -d syntax.y -v
@@ -29,5 +31,5 @@ splc:
 	$(GPP) syntax.tab.c tree.cpp my_error.cpp -lfl -o bin/splc 
 
 clean:	
-	@rm -rf bin lex.yy.c syntax.tab.c syntax.tab.h *.out output.txt output output_ex
+	@rm -rf bin lex.yy.c syntax.tab.c syntax.tab.h *.out output.txt output output_ex github_output extra_output
 .PHONY: splc

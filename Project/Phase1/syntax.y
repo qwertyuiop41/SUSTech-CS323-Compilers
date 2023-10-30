@@ -118,6 +118,11 @@ ExtDecList: VarDec
     {
         $$=new Node(NONTERMINAL, "ExtDecList", 3, @$.first_line, $1, $2, $3);
     }
+    | VarDec COMMA error 
+    {
+        my_error(MISS_VAR, @$.first_line); 
+        has_error=1;
+    }
 ;
 
 /* specifier */
@@ -185,6 +190,11 @@ VarList: ParamDec COMMA VarList
     {
         $$=new Node(NONTERMINAL, "VarList", 1, @$.first_line, $1);
     }
+    | ParamDec COMMA error 
+    {
+        my_error(MISS_VAR, @$.first_line); 
+        has_error=1;
+    }
 ;
 
 ParamDec: Specifier VarDec 
@@ -234,9 +244,21 @@ Stmt: Exp SEMI
     {
         $$=new Node(NONTERMINAL, "Stmt", 5, @$.first_line, $1, $2, $3, $4, $5);
     }
+    | IF LP error RP Stmt
+    {
+         my_error(MISS_SPEC, @$.first_line); has_error=1;
+    }
+    | IF LP error RP error
+    {
+         my_error(MISS_SPEC, @$.first_line); has_error=1;
+    }
     | IF LP Exp RP Stmt ELSE Stmt 
     {
         $$=new Node(NONTERMINAL, "Stmt", 7, @$.first_line, $1, $2, $3, $4, $5, $6, $7);
+    }
+    |  ELSE Stmt 
+    {
+        my_error(MISS_IF, @$.first_line); has_error=1;
     }
     | WHILE LP Exp RP Stmt 
     {
@@ -265,7 +287,7 @@ Stmt: Exp SEMI
     }
     | WHILE error Exp RP Stmt 
     {
-        my_error(MISS_PAREMTHESIS, @$.first_line,')'); has_error=1;
+        my_error(MISS_PAREMTHESIS, @$.first_line,'('); has_error=1;
     }
     | FOR error Exp SEMI Exp SEMI Exp RP Stmt
     {
@@ -311,6 +333,11 @@ DecList: Dec
     {
         $$=new Node(NONTERMINAL, "DecList", 3, @$.first_line, $1, $2, $3);
     }
+    | Dec COMMA error 
+    {
+        my_error(MISS_VAR, @$.first_line); 
+        has_error=1;
+    }
 ;
 
 Dec: VarDec 
@@ -344,12 +371,32 @@ Exp: Exp ASSIGN Exp
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
     | Exp PLUS Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp PLUS error 
+    {
+        my_error(MISS_EXP, @$.first_line,'+'); 
+        has_error=1;
+    }
     | Exp MINUS Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp MINUS error 
+    {
+        my_error(MISS_EXP, @$.first_line,'-'); 
+        has_error=1;
+    }
     | Exp MUL Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp MUL error 
+    {
+        my_error(MISS_EXP, @$.first_line,'*'); 
+        has_error=1;
+    }
     | Exp DIV Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp DIV error 
+    {
+        my_error(MISS_EXP, @$.first_line,'/'); 
+        has_error=1;
+    }
 
     | LP Exp RP 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
@@ -369,6 +416,11 @@ Exp: Exp ASSIGN Exp
     
     | Exp DOT ID 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp DOT error 
+    {
+        my_error(MISS_FIELD, @$.first_line); 
+        has_error=1;
+    }
     | ID 
     {$$=new Node(NONTERMINAL, "Exp", 1, @$.first_line, $1);}
     | INT 
@@ -419,6 +471,12 @@ Args : Exp COMMA Args
     {
         $$=new Node(NONTERMINAL, "Args", 1, @$.first_line, $1);
     }
+    | Exp COMMA error 
+    {
+        my_error(MISS_ARG, @$.first_line); 
+        has_error=1;
+    }
+    
 ;
 %%
 

@@ -1,0 +1,2 @@
+Error type B at Line 3: Missing closing square bracket ']'
+Error type B at Line 5: Missing closing parenthesis ')'

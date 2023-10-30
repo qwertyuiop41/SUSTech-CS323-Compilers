@@ -1,0 +1,4 @@
+Error type A at Line 4: unknown lexeme 1_digit
+Error type B at Line 5: Missing closing parenthesis '('
+Error type A at Line 9: unknown lexeme 1_digit
+Error type B at Line 3: Missing closing parenthesis '('
