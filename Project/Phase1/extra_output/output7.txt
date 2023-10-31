@@ -1,2 +1,3 @@
 Error type B at Line 5: Missing closing square bracket ']'
-Error type B at Line 4: Missing specifier
+Error type B at Line 6: Missing Exp after =
+Error type B at Line 7: Missing closing square bracket ']'

@@ -54,46 +54,47 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    ILLEGAL_TOKEN = 258,           /* ILLEGAL_TOKEN  */
-    LOWER_THAN_ELSE = 259,         /* LOWER_THAN_ELSE  */
-    ELSE = 260,                    /* ELSE  */
-    TYPE = 261,                    /* TYPE  */
-    INT = 262,                     /* INT  */
-    CHAR = 263,                    /* CHAR  */
-    FLOAT = 264,                   /* FLOAT  */
-    STRUCT = 265,                  /* STRUCT  */
-    ID = 266,                      /* ID  */
-    IF = 267,                      /* IF  */
-    WHILE = 268,                   /* WHILE  */
-    RETURN = 269,                  /* RETURN  */
-    FOR = 270,                     /* FOR  */
-    COMMA = 271,                   /* COMMA  */
-    ASSIGN = 272,                  /* ASSIGN  */
-    OR = 273,                      /* OR  */
-    AND = 274,                     /* AND  */
-    LT = 275,                      /* LT  */
-    LE = 276,                      /* LE  */
-    GT = 277,                      /* GT  */
-    GE = 278,                      /* GE  */
-    NE = 279,                      /* NE  */
-    EQ = 280,                      /* EQ  */
-    PLUS = 281,                    /* PLUS  */
-    MINUS = 282,                   /* MINUS  */
-    MUL = 283,                     /* MUL  */
-    DIV = 284,                     /* DIV  */
-    NOT = 285,                     /* NOT  */
-    LP = 286,                      /* LP  */
-    RP = 287,                      /* RP  */
-    LB = 288,                      /* LB  */
-    RB = 289,                      /* RB  */
-    DOT = 290,                     /* DOT  */
-    SEMI = 291,                    /* SEMI  */
-    LC = 292,                      /* LC  */
-    RC = 293,                      /* RC  */
-    INVALID_CHAR = 294,            /* INVALID_CHAR  */
-    WRONG_ID = 295,                /* WRONG_ID  */
-    UNKNOWN_CHAR = 296,            /* UNKNOWN_CHAR  */
-    INVALID_NUMBER = 297           /* INVALID_NUMBER  */
+    LOWEST = 258,                  /* LOWEST  */
+    ILLEGAL_TOKEN = 259,           /* ILLEGAL_TOKEN  */
+    LOWER_THAN_ELSE = 260,         /* LOWER_THAN_ELSE  */
+    ELSE = 261,                    /* ELSE  */
+    TYPE = 262,                    /* TYPE  */
+    INT = 263,                     /* INT  */
+    CHAR = 264,                    /* CHAR  */
+    FLOAT = 265,                   /* FLOAT  */
+    STRUCT = 266,                  /* STRUCT  */
+    ID = 267,                      /* ID  */
+    IF = 268,                      /* IF  */
+    WHILE = 269,                   /* WHILE  */
+    RETURN = 270,                  /* RETURN  */
+    FOR = 271,                     /* FOR  */
+    COMMA = 272,                   /* COMMA  */
+    ASSIGN = 273,                  /* ASSIGN  */
+    OR = 274,                      /* OR  */
+    AND = 275,                     /* AND  */
+    LT = 276,                      /* LT  */
+    LE = 277,                      /* LE  */
+    GT = 278,                      /* GT  */
+    GE = 279,                      /* GE  */
+    NE = 280,                      /* NE  */
+    EQ = 281,                      /* EQ  */
+    PLUS = 282,                    /* PLUS  */
+    MINUS = 283,                   /* MINUS  */
+    MUL = 284,                     /* MUL  */
+    DIV = 285,                     /* DIV  */
+    NOT = 286,                     /* NOT  */
+    LP = 287,                      /* LP  */
+    RP = 288,                      /* RP  */
+    LB = 289,                      /* LB  */
+    RB = 290,                      /* RB  */
+    DOT = 291,                     /* DOT  */
+    SEMI = 292,                    /* SEMI  */
+    LC = 293,                      /* LC  */
+    RC = 294,                      /* RC  */
+    INVALID_CHAR = 295,            /* INVALID_CHAR  */
+    WRONG_ID = 296,                /* WRONG_ID  */
+    UNKNOWN_CHAR = 297,            /* UNKNOWN_CHAR  */
+    INVALID_NUMBER = 298           /* INVALID_NUMBER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -106,7 +107,7 @@ union YYSTYPE
 
     Node* node_ptr;
 
-#line 110 "syntax.tab.h"
+#line 111 "syntax.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

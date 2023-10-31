@@ -23,4 +23,4 @@ diff extra_output/output11.txt extra-test/test_1_s11.out
 echo In test12
 diff extra_output/output12.txt extra-test/test_1_s12.out
 echo In test13
-diff extra_output/output12.txt extra-test/test_1_s13.out
+diff extra_output/output13.txt extra-test/test_1_s13.out

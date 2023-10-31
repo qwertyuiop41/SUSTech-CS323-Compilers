@@ -3,5 +3,27 @@ File inclusions at Line 2: #include "lex.yy.c"
 Lib inclusions at Line 3: #include <stdio.h>
 File inclusions at Line 4: #include "stdlib.h"
 Lib inclusions at Line 5: #include <string.h>
-Error type A at Line 10: unknown lexeme ?
-Error type B at Line 9: Missing specifier
+Program (7)
+  ExtDefList (7)
+    ExtDef (7)
+      Specifier (7)
+        TYPE: int
+      FunDec (7)
+        ID: main
+        LP
+        RP
+      CompSt (7)
+        LC
+        DefList (8)
+          Def (8)
+            Specifier (8)
+              TYPE: int
+            DecList (8)
+              Dec (8)
+                VarDec (8)
+                  ID: num1
+                ASSIGN
+                Exp (8)
+                  INT: 10
+            SEMI
+        RC

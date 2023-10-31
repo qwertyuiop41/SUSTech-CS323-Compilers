@@ -16,6 +16,7 @@
 }
 
 /* declared tokens */
+%nonassoc LOWEST
 %nonassoc <node_ptr> ILLEGAL_TOKEN
 %nonassoc LOWER_THAN_ELSE
 %nonassoc <node_ptr> ELSE
@@ -123,6 +124,11 @@ ExtDecList: VarDec
         my_error(MISS_VAR, @$.first_line); 
         has_error=1;
     }
+    | error COMMA ExtDecList 
+    {
+        my_error(MISS_VAR, @$.first_line); 
+        has_error=1;
+    }
 ;
 
 /* specifier */
@@ -195,6 +201,11 @@ VarList: ParamDec COMMA VarList
         my_error(MISS_VAR, @$.first_line); 
         has_error=1;
     }
+    | error COMMA VarList 
+    {
+        my_error(MISS_VAR, @$.first_line); 
+        has_error=1;
+    }
 ;
 
 ParamDec: Specifier VarDec 
@@ -214,8 +225,6 @@ CompSt: LC DefList StmtList RC
     {
         $$=new Node(NONTERMINAL, "CompSt", 4, @$.first_line, $1, $2, $3, $4);
     }
-
-
 ;
 
 StmtList: /* allow empty input */  
@@ -245,10 +254,6 @@ Stmt: Exp SEMI
         $$=new Node(NONTERMINAL, "Stmt", 5, @$.first_line, $1, $2, $3, $4, $5);
     }
     | IF LP error RP Stmt
-    {
-         my_error(MISS_SPEC, @$.first_line); has_error=1;
-    }
-    | IF LP error RP error
     {
          my_error(MISS_SPEC, @$.first_line); has_error=1;
     }
@@ -308,20 +313,21 @@ DefList: /* allow empty input */
     {
         $$=new Node(NONTERMINAL, "DefList", 2, @$.first_line, $1, $2);
     }
+    
 ; 
 
 Def: Specifier DecList SEMI 
     {
         $$=new Node(NONTERMINAL, "Def", 3, @$.first_line, $1, $2, $3);
     }
-    | Specifier DecList error
-    {
-        my_error(MISS_SEMI, @$.first_line); 
-        has_error=1;
-    }
     | error DecList SEMI 
     {
         my_error(MISS_SPEC, @$.first_line +1); has_error=1;
+    }
+    | Specifier DecList error 
+    {
+        my_error(MISS_SEMI, @$.first_line); 
+        has_error=1;
     }
 ;
 
@@ -353,6 +359,11 @@ Dec: VarDec
 /* Expression */
 Exp: Exp ASSIGN Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
+    | Exp ASSIGN error 
+    {
+        my_error(MISS_EXP, @$.first_line,'='); 
+        has_error=1;
+    }
     | Exp AND Exp 
     {$$=new Node(NONTERMINAL, "Exp", 3, @$.first_line, $1, $2, $3);}
     | Exp OR Exp 
