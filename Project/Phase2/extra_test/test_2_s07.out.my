@@ -1,0 +1,5 @@
+Error type 3 at line 9: redefine variable: weight
+Error type 15 at line 13: redefine struct: Apple
+Error type 5 at line 24: unmatching type on both sides of assignment
+Error type 14 at line 25: no such member: length
+Error type 14 at line 26: no such member: length

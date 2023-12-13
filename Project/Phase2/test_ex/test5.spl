@@ -1,0 +1,12 @@
+int calculateSum()
+{
+    float sum = 10.5 + 20.5;
+    return sum;
+}
+
+int main()
+{
+    int result = calculateSum();
+    return 0;
+}
+

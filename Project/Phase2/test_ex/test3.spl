@@ -1,0 +1,8 @@
+int main()
+{
+    int num = 10;
+    float dec = 5.5;
+    num = dec;
+    return 0;
+}
+

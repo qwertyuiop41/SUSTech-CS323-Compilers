@@ -1,0 +1,4 @@
+Error type 5 at line 17: unmatching type on both sides of assignment
+Error type 9 at line 20: invalid argument number for compare, add
+Error type 12 at line 24: indexing by non-integer
+Error type 14 at line 27: no such member: add

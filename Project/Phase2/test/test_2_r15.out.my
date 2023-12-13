@@ -1,0 +1,2 @@
+Error type 15 at line 7: redefine struct: Apple
+Error type 5 at line 16: unmatching type on both sides of assignment

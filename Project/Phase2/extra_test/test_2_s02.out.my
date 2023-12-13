@@ -1,0 +1,2 @@
+Error type 10 at line 4: indexing on non-array variable
+Error type 2 at line 5: undefined function: func

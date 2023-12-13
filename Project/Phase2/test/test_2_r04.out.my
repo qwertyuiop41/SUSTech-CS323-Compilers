@@ -1,0 +1,4 @@
+Error type 4 at line 6: redefine function: sum
+Error type 3 at line 6: redefine variable: x
+Error type 3 at line 6: redefine variable: y
+Error type 4 at line 6: redefine function: sum
