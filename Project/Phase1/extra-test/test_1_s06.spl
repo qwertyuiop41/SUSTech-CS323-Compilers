@@ -1,4 +1,4 @@
-int print(int a){
+int print(int a){ 
     while(1){}
 }
 int test_12110644_3(){

@@ -1,0 +1,304 @@
+Error type 2 at line 3: undefined function: write
+Error type 2 at line 7: undefined function: write
+Program (1)
+  ExtDefList (1)
+    ExtDef (1)
+      Specifier (1)
+        TYPE: int
+      FunDec (1)
+        ID: hanoi
+        LP
+        VarList (1)
+          ParamDec (1)
+            Specifier (1)
+              TYPE: int
+            VarDec (1)
+              ID: n
+          COMMA
+          VarList (1)
+            ParamDec (1)
+              Specifier (1)
+                TYPE: int
+              VarDec (1)
+                ID: p1
+            COMMA
+            VarList (1)
+              ParamDec (1)
+                Specifier (1)
+                  TYPE: int
+                VarDec (1)
+                  ID: p2
+              COMMA
+              VarList (1)
+                ParamDec (1)
+                  Specifier (1)
+                    TYPE: int
+                  VarDec (1)
+                    ID: p3
+        RP
+      CompSt (1)
+        LC
+        StmtList (2)
+          Stmt (2)
+            IF
+            LP
+            Exp (2)
+              Exp (2)
+                ID: n
+              EQ
+              Exp (2)
+                INT: 1
+            RP
+            Stmt (2)
+              CompSt (2)
+                LC
+                StmtList (3)
+                  Stmt (3)
+                    Exp (3)
+                      ID: write
+                      LP
+                      Args (3)
+                        Exp (3)
+                          Exp (3)
+                            Exp (3)
+                              ID: p1
+                            MUL
+                            Exp (3)
+                              INT: 1000000
+                          PLUS
+                          Exp (3)
+                            ID: p3
+                      RP
+                    SEMI
+                RC
+            ELSE
+            Stmt (5)
+              CompSt (5)
+                LC
+                StmtList (6)
+                  Stmt (6)
+                    Exp (6)
+                      ID: hanoi
+                      LP
+                      Args (6)
+                        Exp (6)
+                          Exp (6)
+                            ID: n
+                          MINUS
+                          Exp (6)
+                            INT: 1
+                        COMMA
+                        Args (6)
+                          Exp (6)
+                            ID: p1
+                          COMMA
+                          Args (6)
+                            Exp (6)
+                              ID: p3
+                            COMMA
+                            Args (6)
+                              Exp (6)
+                                ID: p2
+                      RP
+                    SEMI
+                  StmtList (7)
+                    Stmt (7)
+                      Exp (7)
+                        ID: write
+                        LP
+                        Args (7)
+                          Exp (7)
+                            Exp (7)
+                              Exp (7)
+                                ID: p1
+                              MUL
+                              Exp (7)
+                                INT: 1000000
+                            PLUS
+                            Exp (7)
+                              ID: p3
+                        RP
+                      SEMI
+                    StmtList (8)
+                      Stmt (8)
+                        Exp (8)
+                          ID: hanoi
+                          LP
+                          Args (8)
+                            Exp (8)
+                              Exp (8)
+                                ID: n
+                              MINUS
+                              Exp (8)
+                                INT: 1
+                            COMMA
+                            Args (8)
+                              Exp (8)
+                                ID: p2
+                              COMMA
+                              Args (8)
+                                Exp (8)
+                                  ID: p1
+                                COMMA
+                                Args (8)
+                                  Exp (8)
+                                    ID: p3
+                          RP
+                        SEMI
+                RC
+          StmtList (10)
+            Stmt (10)
+              RETURN
+              Exp (10)
+                INT: 0
+              SEMI
+        RC
+    ExtDefList (13)
+      ExtDef (13)
+        Specifier (13)
+          TYPE: int
+        FunDec (13)
+          ID: main
+          LP
+          RP
+        CompSt (13)
+          LC
+          DefList (14)
+            Def (14)
+              Specifier (14)
+                TYPE: int
+              DecList (14)
+                Dec (14)
+                  VarDec (14)
+                    ID: sum
+                  ASSIGN
+                  Exp (14)
+                    INT: 3
+              SEMI
+          StmtList (15)
+            Stmt (15)
+              Exp (15)
+                ID: hanoi
+                LP
+                Args (15)
+                  Exp (15)
+                    ID: sum
+                  COMMA
+                  Args (15)
+                    Exp (15)
+                      INT: 1
+                    COMMA
+                    Args (15)
+                      Exp (15)
+                        INT: 2
+                      COMMA
+                      Args (15)
+                        Exp (15)
+                          INT: 3
+                RP
+              SEMI
+            StmtList (16)
+              Stmt (16)
+                RETURN
+                Exp (16)
+                  INT: 0
+                SEMI
+          RC
+NONTERMINAL Program
+ExtDefList, nodes num == 2
+ExtDef, nodes num == 3
+FunDec, nodes num == 4
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+ExtDefList, nodes num == 2
+ExtDef, nodes num == 3
+FunDec, nodes num == 3
+CompSt, nodes num == 4
+DefList, nodes num == 2
+Def
+DecList, nodes num == 1
+Dec, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+FUNCTION hanoi :
+PARAM n
+PARAM p1
+PARAM p2
+PARAM p3
+t1 := n
+t2 := #1
+IF t1 == t2 GOTO label1
+GOTO label2
+LABEL label1 :
+t7 := p1
+t8 := #1000000
+t5 := t7 * t8
+t6 := p3
+t4 := t5 + t6
+WRITE t4
+GOTO label3
+LABEL label2 :
+t11 := n
+t12 := #1
+t10 := t11 - t12
+t13 := p1
+t14 := p3
+t15 := p2
+ARG t15
+ARG t14
+ARG t13
+ARG t10
+t9 := CALL hanoi
+t20 := p1
+t21 := #1000000
+t18 := t20 * t21
+t19 := p3
+t17 := t18 + t19
+WRITE t17
+t24 := n
+t25 := #1
+t23 := t24 - t25
+t26 := p2
+t27 := p1
+t28 := p3
+ARG t28
+ARG t27
+ARG t26
+ARG t23
+t22 := CALL hanoi
+LABEL label3 :
+t29 := #0
+RETURN t29
+FUNCTION main :
+sum := #3
+t31 := sum
+t32 := #1
+t33 := #2
+t34 := #3
+ARG t34
+ARG t33
+ARG t32
+ARG t31
+t30 := CALL hanoi
+t35 := #0
+RETURN t35

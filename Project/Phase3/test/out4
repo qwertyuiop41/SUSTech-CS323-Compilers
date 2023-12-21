@@ -1,0 +1,433 @@
+Error type 2 at line 29: undefined function: write
+Program (1)
+  ExtDefList (1)
+    ExtDef (1)
+      Specifier (1)
+        TYPE: int
+      FunDec (1)
+        ID: mod
+        LP
+        VarList (1)
+          ParamDec (1)
+            Specifier (1)
+              TYPE: int
+            VarDec (1)
+              ID: x
+          COMMA
+          VarList (1)
+            ParamDec (1)
+              Specifier (1)
+                TYPE: int
+              VarDec (1)
+                ID: n
+        RP
+      CompSt (2)
+        LC
+        StmtList (3)
+          Stmt (3)
+            RETURN
+            Exp (3)
+              Exp (3)
+                ID: x
+              MINUS
+              Exp (3)
+                Exp (3)
+                  LP
+                  Exp (3)
+                    Exp (3)
+                      ID: x
+                    DIV
+                    Exp (3)
+                      ID: n
+                  RP
+                MUL
+                Exp (3)
+                  ID: n
+            SEMI
+        RC
+    ExtDefList (7)
+      ExtDef (7)
+        Specifier (7)
+          TYPE: int
+        FunDec (7)
+          ID: isPerfectNumber
+          LP
+          VarList (7)
+            ParamDec (7)
+              Specifier (7)
+                TYPE: int
+              VarDec (7)
+                ID: number
+          RP
+        CompSt (7)
+          LC
+          DefList (8)
+            Def (8)
+              Specifier (8)
+                TYPE: int
+              DecList (8)
+                Dec (8)
+                  VarDec (8)
+                    ID: sum
+                  ASSIGN
+                  Exp (8)
+                    INT: 0
+              SEMI
+            DefList (9)
+              Def (9)
+                Specifier (9)
+                  TYPE: int
+                DecList (9)
+                  Dec (9)
+                    VarDec (9)
+                      ID: j
+                    ASSIGN
+                    Exp (9)
+                      INT: 1
+                SEMI
+          StmtList (10)
+            Stmt (10)
+              WHILE
+              LP
+              Exp (10)
+                Exp (10)
+                  ID: j
+                LE
+                Exp (10)
+                  Exp (10)
+                    ID: number
+                  DIV
+                  Exp (10)
+                    INT: 2
+              RP
+              Stmt (10)
+                CompSt (10)
+                  LC
+                  StmtList (11)
+                    Stmt (11)
+                      IF
+                      LP
+                      Exp (11)
+                        Exp (11)
+                          ID: mod
+                          LP
+                          Args (11)
+                            Exp (11)
+                              ID: number
+                            COMMA
+                            Args (11)
+                              Exp (11)
+                                ID: j
+                          RP
+                        EQ
+                        Exp (11)
+                          INT: 0
+                      RP
+                      Stmt (11)
+                        CompSt (11)
+                          LC
+                          StmtList (12)
+                            Stmt (12)
+                              Exp (12)
+                                Exp (12)
+                                  ID: sum
+                                ASSIGN
+                                Exp (12)
+                                  Exp (12)
+                                    ID: sum
+                                  PLUS
+                                  Exp (12)
+                                    ID: j
+                              SEMI
+                          RC
+                    StmtList (14)
+                      Stmt (14)
+                        Exp (14)
+                          Exp (14)
+                            ID: j
+                          ASSIGN
+                          Exp (14)
+                            Exp (14)
+                              ID: j
+                            PLUS
+                            Exp (14)
+                              INT: 1
+                        SEMI
+                  RC
+            StmtList (17)
+              Stmt (17)
+                IF
+                LP
+                Exp (17)
+                  Exp (17)
+                    ID: sum
+                  EQ
+                  Exp (17)
+                    ID: number
+                RP
+                Stmt (17)
+                  CompSt (17)
+                    LC
+                    StmtList (18)
+                      Stmt (18)
+                        RETURN
+                        Exp (18)
+                          INT: 1
+                        SEMI
+                    RC
+                ELSE
+                Stmt (19)
+                  CompSt (19)
+                    LC
+                    StmtList (20)
+                      Stmt (20)
+                        RETURN
+                        Exp (20)
+                          INT: 0
+                        SEMI
+                    RC
+          RC
+      ExtDefList (24)
+        ExtDef (24)
+          Specifier (24)
+            TYPE: int
+          FunDec (24)
+            ID: main
+            LP
+            RP
+          CompSt (24)
+            LC
+            DefList (25)
+              Def (25)
+                Specifier (25)
+                  TYPE: int
+                DecList (25)
+                  Dec (25)
+                    VarDec (25)
+                      ID: count
+                    ASSIGN
+                    Exp (25)
+                      INT: 0
+                SEMI
+              DefList (26)
+                Def (26)
+                  Specifier (26)
+                    TYPE: int
+                  DecList (26)
+                    Dec (26)
+                      VarDec (26)
+                        ID: i
+                      ASSIGN
+                      Exp (26)
+                        INT: 1
+                  SEMI
+            StmtList (27)
+              Stmt (27)
+                WHILE
+                LP
+                Exp (27)
+                  Exp (27)
+                    ID: i
+                  LE
+                  Exp (27)
+                    INT: 100
+                RP
+                Stmt (27)
+                  CompSt (27)
+                    LC
+                    StmtList (28)
+                      Stmt (28)
+                        IF
+                        LP
+                        Exp (28)
+                          Exp (28)
+                            ID: isPerfectNumber
+                            LP
+                            Args (28)
+                              Exp (28)
+                                ID: i
+                            RP
+                          EQ
+                          Exp (28)
+                            INT: 1
+                        RP
+                        Stmt (28)
+                          CompSt (28)
+                            LC
+                            StmtList (29)
+                              Stmt (29)
+                                Exp (29)
+                                  ID: write
+                                  LP
+                                  Args (29)
+                                    Exp (29)
+                                      ID: i
+                                  RP
+                                SEMI
+                            RC
+                      StmtList (31)
+                        Stmt (31)
+                          Exp (31)
+                            Exp (31)
+                              ID: i
+                            ASSIGN
+                            Exp (31)
+                              Exp (31)
+                                ID: i
+                              PLUS
+                              Exp (31)
+                                INT: 1
+                          SEMI
+                    RC
+              StmtList (34)
+                Stmt (34)
+                  RETURN
+                  Exp (34)
+                    INT: 0
+                  SEMI
+            RC
+NONTERMINAL Program
+ExtDefList, nodes num == 2
+ExtDef, nodes num == 3
+FunDec, nodes num == 4
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+Exp, nodes num == 3
+ExtDefList, nodes num == 2
+ExtDef, nodes num == 3
+FunDec, nodes num == 4
+CompSt, nodes num == 4
+DefList, nodes num == 2
+Def
+DecList, nodes num == 1
+Dec, nodes num == 3
+DefList, nodes num == 2
+Def
+DecList, nodes num == 1
+Dec, nodes num == 3
+StmtList, Stmt StmtList
+Exp, nodes num == 3
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+ExtDefList, nodes num == 2
+ExtDef, nodes num == 3
+FunDec, nodes num == 3
+CompSt, nodes num == 4
+DefList, nodes num == 2
+Def
+DecList, nodes num == 1
+Dec, nodes num == 3
+DefList, nodes num == 2
+Def
+DecList, nodes num == 1
+Dec, nodes num == 3
+StmtList, Stmt StmtList
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+CompSt, nodes num == 4
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+StmtList, Stmt StmtList
+Stmt, Exp SEMI
+Exp, nodes num == 3
+Exp, nodes num == 3
+StmtList, Stmt StmtList
+Stmt, RETURN EXP SEMI
+FUNCTION mod :
+PARAM x
+PARAM n
+t2 := x
+t6 := x
+t7 := n
+t4 := t6 / t7
+t5 := n
+t3 := t4 * t5
+t1 := t2 - t3
+RETURN t1
+FUNCTION isPerfectNumber :
+PARAM number
+sum := #0
+j := #1
+LABEL label1 :
+t8 := j
+t10 := number
+t11 := #2
+t9 := t10 / t11
+IF t8 <= t9 GOTO label2
+GOTO label3
+LABEL label2 :
+t14 := number
+t15 := j
+ARG t15
+ARG t14
+t12 := CALL mod
+t13 := #0
+IF t12 == t13 GOTO label4
+GOTO label5
+LABEL label4 :
+t17 := sum
+t18 := j
+sum := t17 + t18
+LABEL label5 :
+t20 := j
+t21 := #1
+j := t20 + t21
+GOTO label1
+LABEL label3 :
+t22 := sum
+t23 := number
+IF t22 == t23 GOTO label6
+GOTO label7
+LABEL label6 :
+t24 := #1
+RETURN t24
+GOTO label8
+LABEL label7 :
+t25 := #0
+RETURN t25
+LABEL label8 :
+FUNCTION main :
+count := #0
+i := #1
+LABEL label9 :
+t26 := i
+t27 := #100
+IF t26 <= t27 GOTO label10
+GOTO label11
+LABEL label10 :
+t30 := i
+ARG t30
+t28 := CALL isPerfectNumber
+t29 := #1
+IF t28 == t29 GOTO label12
+GOTO label13
+LABEL label12 :
+t32 := i
+WRITE t32
+LABEL label13 :
+t34 := i
+t35 := #1
+i := t34 + t35
+GOTO label9
+LABEL label11 :
+t36 := #0
+RETURN t36

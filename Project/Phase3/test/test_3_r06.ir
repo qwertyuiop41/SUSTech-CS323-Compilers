@@ -1,0 +1,62 @@
+FUNCTION hanoi :
+PARAM n
+PARAM p1
+PARAM p2
+PARAM p3
+t1 := n
+t2 := #1
+IF t1 == t2 GOTO label1
+GOTO label2
+LABEL label1 :
+t7 := p1
+t8 := #1000000
+t5 := t7 * t8
+t6 := p3
+t4 := t5 + t6
+WRITE t4
+GOTO label3
+LABEL label2 :
+t11 := n
+t12 := #1
+t10 := t11 - t12
+t13 := p1
+t14 := p3
+t15 := p2
+ARG t15
+ARG t14
+ARG t13
+ARG t10
+t9 := CALL hanoi
+t20 := p1
+t21 := #1000000
+t18 := t20 * t21
+t19 := p3
+t17 := t18 + t19
+WRITE t17
+t24 := n
+t25 := #1
+t23 := t24 - t25
+t26 := p2
+t27 := p1
+t28 := p3
+ARG t28
+ARG t27
+ARG t26
+ARG t23
+t22 := CALL hanoi
+LABEL label3 :
+t29 := #0
+RETURN t29
+FUNCTION main :
+sum := #3
+t31 := sum
+t32 := #1
+t33 := #2
+t34 := #3
+ARG t34
+ARG t33
+ARG t32
+ARG t31
+t30 := CALL hanoi
+t35 := #0
+RETURN t35
