@@ -1,0 +1,5 @@
+[DEBUG] 2023-12-24 15:37:09,016 (irsim.py 620): Parsed arguments: {'irpath': 'test/test_3_r06.ir', 'inputs': '', 'logpath': 'irsim.log'}
+[INFO] 2023-12-24 15:37:09,019 (irsim.py 567): File loaded successfully
+[INFO] 2023-12-24 15:37:10,328 (irsim.py 567): Program has exited gracefully
+[INFO] 2023-12-24 15:37:10,328 (irsim.py 567): Total instructions = 117
+[INFO] 2023-12-24 15:37:16,184 (irsim.py 567): KeyboardInterrupt raised, quit program
