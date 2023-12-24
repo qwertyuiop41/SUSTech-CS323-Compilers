@@ -1,0 +1,13 @@
+int test(int a[10]){
+    a[1] = 111;
+    return 0;
+}
+
+int main(){
+    int arr[10];
+    arr[1] = 1;
+    write(arr[1]);
+    test(arr);
+    write(arr[1]);
+    return 0;
+}

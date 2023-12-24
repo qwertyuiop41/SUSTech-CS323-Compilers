@@ -1,13 +1,9 @@
 FUNCTION mod :
 PARAM x
 PARAM n
-t2 := x
-t6 := x
-t7 := n
-t4 := t6 / t7
-t5 := n
-t3 := t4 * t5
-t1 := t2 - t3
+t4 := x / n
+t3 := t4 * n
+t1 := x - t3
 RETURN t1
 FUNCTION isPalindrome :
 PARAM num
@@ -15,54 +11,40 @@ reversed := #0
 original := num
 digit := #0
 LABEL label1 :
-t8 := num
-t9 := #0
-IF t8 != t9 GOTO label2
+IF num != #0 GOTO label2
 GOTO label3
 LABEL label2 :
-t11 := num
-t12 := #10
-ARG t12
-ARG t11
-digit := CALL mod
-t16 := reversed
-t17 := #10
-t14 := t16 * t17
-t15 := digit
-reversed := t14 + t15
-t19 := num
-t20 := #10
-num := t19 / t20
+ARG #10
+ARG num
+t14 := CALL mod
+digit := t14
+t19 := reversed * #10
+t18 := t19 + digit
+reversed := t18
+t24 := num / #10
+num := t24
 GOTO label1
 LABEL label3 :
-t21 := reversed
-t22 := original
-IF t21 == t22 GOTO label4
+IF reversed == original GOTO label4
 GOTO label5
 LABEL label4 :
-t23 := #1
-RETURN t23
+RETURN #1
 GOTO label6
 LABEL label5 :
-t24 := #0
-RETURN t24
+RETURN #0
 LABEL label6 :
 FUNCTION main :
-READ number
-t28 := number
-ARG t28
-t26 := CALL isPalindrome
-t27 := #1
-IF t26 == t27 GOTO label7
+READ t32
+number := t32
+ARG number
+t33 := CALL isPalindrome
+IF t33 == #1 GOTO label7
 GOTO label8
 LABEL label7 :
-t30 := #1
-WRITE t30
+WRITE #1
 GOTO label9
 LABEL label8 :
-t33 := #1
-t32 := #0 - t33
-WRITE t32
+t39 := #0 - #1
+WRITE t39
 LABEL label9 :
-t34 := #0
-RETURN t34
+RETURN #0

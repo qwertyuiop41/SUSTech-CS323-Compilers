@@ -1,0 +1,19 @@
+struct myStruct
+{
+    int field1;
+    int field2;
+};
+
+int test(struct myStruct a){
+    a.field1 = 11111;
+    return 0;
+}
+
+int main(){
+    struct myStruct c1,c2;
+    c1.field1 = 111;
+    write(c1.field1);
+    test(c1);
+    write(c1.field1);
+    return 0;
+}

@@ -1,6 +1,7 @@
 #include "inter_code.h"
 #include "type.hpp"
 
+
 #include <string.h>
 #include <cstdio>
 #include <cstdlib>
@@ -20,6 +21,11 @@ using std::vector;
 
 int tmp_cnt = 0;
 int label_cnt = 0;
+unordered_map<string, unordered_map<string, int>> class_field_map;
+unordered_map<string, string> obj_class_map;
+unordered_map<string, string> obj_class_funcmap;
+vector<string> arr_funclist;
+vector<string> arr_list;
 string new_place() {
     tmp_cnt++;
     return "t" + to_string(tmp_cnt);
@@ -43,8 +49,8 @@ void concatenate_ir(Node* target, Node* s1) {
 };
 
 void generate_ir(Node* root){
-    printTree(root);
-    printNodeName(root);
+    // printTree(root);
+    // printNodeName(root);
     if (root == nullptr) {
         printf("Empty parse tree\n");
         return;
@@ -63,7 +69,6 @@ void translate_ExtDefList(Node* node) {
     if (!node || node->nodes_num == 0) {
         return;
     } else if (node->nodes_num == 2) {
-        printf("ExtDefList, nodes num == 2\n");
         Node* ExtDef = nextNode(node);
         Node* ExtDefList = nextNode(node);
 
@@ -79,10 +84,8 @@ void translate_ExtDefList(Node* node) {
 
 // ExtDefList -> Specifier ExtDecList SEMI | Specifier SEMI |Specifier FunDec CompSt
 void translate_ExtDef(Node* node) {
-    //?还有一个 Specifier ExtDecList SEMI 没有
     if (node->nodes_num == 3 &&
         !strcmp(node->children[1]->name.c_str(), "FunDec")) {
-        printf("ExtDef, nodes num == 3\n");
         Node* FunDec = node->children[1];
         Node* CompSt = node->children[2];
         translate_FunDec(FunDec);
@@ -90,28 +93,56 @@ void translate_ExtDef(Node* node) {
         concatenate_ir(node, FunDec, CompSt);
     } else if (node->nodes_num == 2) {
         Node* Specifier = node->children[0];
+        translate_Specifier(Specifier);
     } else {
         printf("Error in translate_ExtDef!");
     }
 }
 
 //Specifier -> TYPE | StructSpecifier
-void translate_Specifier(Node* node) {//? TYPE就不用管了
-    // if (!strcmp(node->child_first_ptr->node->name, "StructSpecifier")) {
-    //     Node* StructSpecifier = node->child_first_ptr->node;
-    //     translate_StructSpecifier(StructSpecifier);
-    // }
+void translate_Specifier(Node* node) {
+    if (!strcmp(node->children[0]->name.c_str(), "StructSpecifier")) {
+        Node* StructSpecifier = node->children[0];
+        translate_StructSpecifier(StructSpecifier);
+    }
 }
-// FunDec -> ID LP RP | ID LP VarList RP  (int main() 的 main()|void test(int a, int b)的 test(int a, int b))
-//VarList是只在函数定义FunDec里才有的
+
+// StructSpecifier -> STRUCT ID LC DefList RC | STRUCT ID
+void translate_StructSpecifier(Node* node) {
+    if (node->nodes_num == 5) {
+        //  STRUCT ID LC DefList RC
+        string id = string(node->children[1]->char_value);
+        unordered_map<string, int> umap;
+        Node* DefList = node->children[3];
+        translate_StructDefList(umap, DefList, 0);
+        class_field_map.insert(make_pair(id, umap));
+    }
+}
+
+// DefList -> Def DefList  
+//     | $
+// Def -> Specifier DecList SEMI
+//DecList -> Dec
+void translate_StructDefList(unordered_map<string, int>& umap,
+                           Node* node,
+                           int i) {
+    if (!node || node->nodes_num == 0) {
+        return;
+    } else {
+        string id = string(node->children[0]->children[1]->children[0]->children[0]->children[0]->char_value);
+        umap.insert(make_pair(id, i));
+        Node* DefList = node->children[1];
+        translate_StructDefList(umap, DefList, i + 1);
+    }
+}
+
+// FunDec -> ID LP RP | ID LP VarList RP 
 void translate_FunDec(Node* node) {
     if (node->nodes_num == 3) {
-        printf("FunDec, nodes num == 3\n");
         node->ir.push_back("FUNCTION " +
                            string(node->children[0]->char_value) +
                            " :");
     } else if (node->nodes_num == 4) {
-        printf("FunDec, nodes num == 4\n");
         node->ir.push_back("FUNCTION " +
                            string(node->children[0]->char_value) +
                            " :");
@@ -142,18 +173,26 @@ void translate_VarList(Node* node){
 // VarDec -> ID
 //     | VarDec LB INT RB
 void translate_ParamDec(Node* node){
+    Node* Specifier = node->children[0];
     Node* VarDec = node->children[1];
-    if(VarDec->nodes_num == 1){
+    if(!strcmp(Specifier->children[0]->name.c_str(), "StructSpecifier")){
+        //参数是结构体
+        string class_name = string(Specifier->children[0]->children[1]->char_value);
+        string obj_name = string(VarDec->children[0]->char_value);
+        obj_class_funcmap.insert(make_pair(obj_name, class_name));
+        node->ir.push_back("PARAM " + obj_name);
+    }else if(VarDec->nodes_num == 1){
         Node* ID = VarDec->children[0];
         node->ir.push_back("PARAM " + string(ID->char_value));
     } else if(VarDec->nodes_num == 4){
-        //?处理数组
+        string arr_name = VarDec->children[0]->children[0]->char_value;
+        arr_funclist.push_back(arr_name);
+        node->ir.push_back("PARAM "+arr_name);
     }
 }
 
 //CompSt -> LC DefList StmtList RC  
 void translate_CompSt(Node* node){
-    printf("CompSt, nodes num == 4\n");
     Node* DefList = node->children[1];
     Node* StmtList = node->children[2];
     translate_DefList(DefList);
@@ -161,13 +200,12 @@ void translate_CompSt(Node* node){
     concatenate_ir(node, DefList, StmtList);
 }
 
-//DefList -> Def DefList  （int a; int b; 一个语句是一个Def)
+//DefList -> Def DefList  
 //  | $
 void translate_DefList(Node* node){
     if (!node || node->nodes_num == 0) {
         return;
     } else if (node->nodes_num == 2) {
-        printf("DefList, nodes num == 2\n");
         Node* Def = node->children[0];
         Node* DefList = node->children[1];
         translate_Def(Def);
@@ -178,16 +216,13 @@ void translate_DefList(Node* node){
     }
 }
 
-// Def -> Specifier DecList SEMI  (int a; int a,b,c; int后面跟着的是DecList)
+// Def -> Specifier DecList SEMI
 void translate_Def(Node* node){
-    printf("Def\n");
     Node* Specifier = node->children[0];
     Node* DecList = node->children[1];
     if (!strcmp(Specifier->children[0]->name.c_str(), "StructSpecifier")) {
-        // string id = string(Specifier->child_first_ptr->node->child_first_ptr
-        //                        ->next_child->node->name)
-        //                 .substr(4);
-        // _parse_Struct_DecList(DecList, id);
+        string class_name = string(Specifier->children[0]->children[1]->char_value);
+        translate_StructDecList(DecList, class_name);
 
     } else {
         translate_DecList(DecList);
@@ -196,15 +231,28 @@ void translate_Def(Node* node){
     concatenate_ir(node, DecList);
 }
 
-// DecList -> Dec | Dec COMMA DecList (int a; 的 a｜int a,b;的 a,b)
-void translate_DecList(Node* node) {
+// DecList -> Dec | Dec COMMA DecList
+void translate_StructDecList(Node* node, string class_name){
+    string obj_name = string(node->children[0]->children[0]->children[0]->char_value);  
+    obj_class_map.insert(make_pair(obj_name, class_name));
+    auto size = class_field_map[class_name].size(); 
+    node->ir.push_back("DEC " + obj_name + " " + to_string(size * 4));
     if (node->nodes_num == 1) {
-        printf("DecList, nodes num == 1\n");
+        return;
+    }
+    Node* DecList = node->children[2];
+    translate_StructDecList(DecList, class_name);
+    concatenate_ir(node, DecList);
+}
+
+
+// DecList -> Dec | Dec COMMA DecList
+void translate_DecList(Node* node) {
+    if (node->nodes_num == 1) {      
         Node* Dec = node->children[0];
         translate_Dec(Dec);
         concatenate_ir(node, Dec);
-    } else if (node->nodes_num == 3) {
-        printf("DecList, nodes num == 3\n");
+    } else if (node->nodes_num == 3) {      
         Node* Dec = node->children[0];
         Node* DecList = node->children[2];
         translate_Dec(Dec);
@@ -214,39 +262,36 @@ void translate_DecList(Node* node) {
         printf("Error in translate_DecList");
     }
 }
-// Dec -> VarDec | VarDec ASSIGN Exp  (int a; 的a | int a=1; 的 a=1)
+// Dec -> VarDec | VarDec ASSIGN Exp  
 void translate_Dec(Node* node) {
     if (node->nodes_num == 1) {
-        printf("Dec, nodes num == 1\n");
         Node* VarDec = node->children[0];
         translate_VarDec(VarDec);
         concatenate_ir(node, VarDec);
     } else if (node->nodes_num == 3) {
-        printf("Dec, nodes num == 3\n");
         Node* VarDec = node->children[0];
         Node* Exp = node->children[2];
         translate_VarDec(VarDec);
-        string place;
-        if (VarDec->nodes_num == 1)
-            place = string(VarDec->children[0]->char_value); //id的值
+        string place = new_place();
+        string id;
+        if (VarDec->nodes_num == 1) // ID ASSIGN Exp
+            id = string(VarDec->children[0]->char_value); 
         translate_Exp(Exp, place);
         concatenate_ir(node, VarDec, Exp);
+        node->ir.push_back(id + " := " +place);
 
     } else {
         printf("Error in translate_Dec");
     }
 }
 
-// VarDec -> ID | VarDec LB INT RB (int a; 的a|int a[1] 的a[1])
+// VarDec -> ID | VarDec LB INT RB 
 void translate_VarDec(Node* node) {
-    if (node->nodes_num == 4) { //TODO：数组
-        // string id =
-        //     string(node->child_first_ptr->node->child_first_ptr->node->name)
-        //         .substr(4);
-        // string size =
-        //     string(node->children[2]->name)
-        //         .substr(5);
-        // node->ir.push_back("DEC " + id + " " + to_string(stoi(size) * 4));
+    if (node->nodes_num == 4) { 
+        string id = string(node->children[0]->children[0]->char_value);
+        string size = string(node->children[2]->name);
+        node->ir.push_back("DEC " + id + " " + to_string(stoi(size) * 4));
+        arr_list.push_back(id);
     }
 }
 
@@ -255,7 +300,6 @@ void translate_StmtList(Node* node){
     if (!node || node->nodes_num == 0) {
         return;
     } else if (node->nodes_num == 2) {
-        printf("StmtList, Stmt StmtList\n");
         Node* Stmt = node->children[0];
         Node* StmtList = node->children[1];
         translate_Stmt(Stmt);
@@ -276,7 +320,6 @@ void translate_Stmt(Node* node){
     if (node->nodes_num == 2 &&
                !strcmp(node->children[0]->name.c_str(), "Exp")) {
         // Stmt -> Exp SEMI
-        printf("Stmt, Exp SEMI\n");
         Node* Exp = node->children[0];
         string place = new_place();
         translate_Exp(Exp, place);
@@ -284,7 +327,6 @@ void translate_Stmt(Node* node){
     } else if (node->nodes_num == 3 &&
         !strcmp(node->children[0]->name.c_str(), "RETURN")) {
         // Stmt -> RETURN Exp SEMI  
-        printf("Stmt, RETURN EXP SEMI\n");
         Node* Exp = node->children[1];
         string place = new_place();
         translate_Exp(Exp, place);
@@ -426,89 +468,78 @@ void translate_cond_Exp(Node* node, string lb_t, string lb_f){
         concatenate_ir(node, Exp1, Exp2);
         node->ir.push_back("IF " + t1 + " < " + t2 + " GOTO " + lb_t);
         node->ir.push_back("GOTO " + lb_f);
-    } //TODO:while(--a)
+    }
 }
 
 //Exp -> Exp ASSIGN Exp
-void translate_Exp(Node* node, string place){
+void translate_Exp(Node* node, string& place){
+
     if (node->nodes_num == 1 &&
         node->children[0]->nodetype == Int) { 
         // Exp -> INT
-        string ir = place + " := #" +
-                    string(node->children[0]->name.c_str());
-        node->ir.push_back(ir);
-
+        place = "#" + string(node->children[0]->name.c_str());
     } else if (node->nodes_num == 1 &&
-               node->children[0]->nodetype == Id) { // ?
+               node->children[0]->nodetype == Id) { 
         // Exp -> ID
-        string ir = place + " := " +
-                    string(node->children[0]->char_value); //?char_value
-        node->ir.push_back(ir);
+        place = string(node->children[0]->char_value);
     }else if (node->nodes_num == 3 &&
                !strcmp(node->children[0]->name.c_str(), "Exp") &&
                !strcmp(
                    node->children[2]->name.c_str(),
                    "Exp")) {
-        printf("Exp, nodes num == 3\n");
         Node* Exp1 = node->children[0];
         Node* Exp2 = node->children[2];
 
     
         if (!strcmp(node->children[1]->name.c_str(), "ASSIGN")) {
             if (Exp1->nodes_num == 4) {
-                // // TODO:array
-                // string id = string(Exp1->child_first_ptr->node->child_first_ptr
-                //                        ->node->name)
-                //                 .substr(4);
-                // string offset_value;
-
-                // string offset = new_place();
-                // if (!memcmp(Exp1->children[2]
-                //                 ->child_first_ptr->node->name,
-                //             "INT", 3)) {
-                //     offset_value =
-                //         string(Exp1->child_first_ptr->next_child->next_child
-                //                    ->node->child_first_ptr->node->name)
-                //             .substr(5);
-                //     Exp1->ir.push_back(offset + " := #" + offset_value +
-                //                        " * #4");
-                // } else {
-                //     offset_value =
-                //         string(Exp1->child_first_ptr->next_child->next_child
-                //                    ->node->child_first_ptr->node->name)
-                //             .substr(4);
-                //     Exp1->ir.push_back(offset + " := " + offset_value +
-                //                        " * #4");
-                // }
-
-                // string address = new_place();
-                // Exp1->ir.push_back(address + " := &" + id + " + " + offset);
-                // string place = new_place();
-                // translate_Exp(Exp2, place);
-                // Exp2->ir.push_back("*" + address + " := " + place);
+                //Exp ->  Exp LB Exp RB
+                Node* Exp11 = Exp1->children[0];
+                Node* Exp22 = Exp1->children[2];
+                string id = string(Exp11->children[0]->char_value);
+                string offset = new_place();
+                translate_Exp(Exp22, offset);
+                concatenate_ir(Exp1,Exp22);
+                string tp1 = new_place();
+                string tp2 = new_place();
+                Exp1->ir.push_back(tp1+" := "+offset + " * #4");
+                auto it = std::find(arr_funclist.begin(), arr_funclist.end(), id);
+                if(it != arr_funclist.end()){
+                    Exp1->ir.push_back(tp2 + " := " + id + " + "+tp1);
+                } else {
+                    Exp1->ir.push_back(tp2 + " := &" + id + " + "+tp1);
+                }
+                string tp3 = new_place();
+                translate_Exp(Exp2, tp3);
+                concatenate_ir(node,Exp1,Exp2);
+                node->ir.push_back( "*" + tp2 + " := " + tp3);
 
             } else if (Exp1->nodes_num == 3) {
-                // // TODO:struct
-                // string id = string(Exp1->child_first_ptr->node->child_first_ptr
-                //                        ->node->name)
-                //                 .substr(4);
-                // string variable = string(Exp1->child_first_ptr->next_child
-                //                              ->next_child->node->name)
-                //                       .substr(4);
+                //  Exp DOT ID
+                string obj_name = string(Exp1->children[0]->children[0]->char_value);
+                string field = string(Exp1->children[2]->char_value);
+                string address = new_place();
+                if(obj_class_funcmap.count(obj_name) > 0){
+                    int offset = class_field_map[obj_class_funcmap[obj_name]][field];
+                    Exp1->ir.push_back(address + " := " + obj_name + " + #" + to_string(offset * 4));
 
-                // string address = new_place();
-                // int offset = struct_map[type_map[id]][variable];
-                // Exp1->ir.push_back(address + " := &" + id + " + #" +
-                //                    to_string(offset * 4));
-                // string place = new_place();
-                // translate_Exp(Exp2, place);
-
-                // Exp2->ir.push_back("*" + address + " := " + place);
-            } else {
-                string variable = string(Exp1->children[0]->char_value); //如果是ID，则variable是id的值，如果是Int/Float这种，则variable是具体的值
-                translate_Exp(Exp2, variable);
+                } else {
+                    int offset = class_field_map[obj_class_map[obj_name]][field];
+                    Exp1->ir.push_back(address + " := &" + obj_name + " + #" + to_string(offset * 4));
+                }
+                string place = new_place();
+                translate_Exp(Exp2, place);
+                concatenate_ir(node, Exp1, Exp2);
+                node->ir.push_back("*" + address + " := " + place);
+            
+            } else {  // Exp1 -> ID 
+                string id = string(Exp1->children[0]->char_value);
+                string place = new_place();
+                translate_Exp(Exp2, place);
+                concatenate_ir(node, Exp1, Exp2);
+                node->ir.push_back(id + " := "+place);
             }
-            concatenate_ir(node, Exp1, Exp2);
+        
         } else if (!strcmp(node->children[1]->name.c_str(),
                            "PLUS")) {
             string t1 = new_place();
@@ -550,14 +581,14 @@ void translate_Exp(Node* node, string place){
         Node* Exp = node->children[1];
         translate_Exp(Exp, tp);
         concatenate_ir(node, Exp);
-        node->ir.push_back(place + " := #0" + " - " + tp); //?不用#0吧
+        node->ir.push_back(place + " := #0" + " - " + tp); 
 
     } else if (node->nodes_num == 3 &&
                !strcmp(node->children[1]->name.c_str(), "LP") &&
                !strcmp(
                    node->children[2]->name.c_str(),
                    "RP")) {
-        // Exp -> ID LP RP  无参函数调用
+        // Exp -> ID LP RP
         string id = string(node->children[0]->char_value);
         if (id == "read") {
             node->ir.push_back("READ " + place);
@@ -569,7 +600,7 @@ void translate_Exp(Node* node, string place){
                !strcmp(
                    node->children[2]->name.c_str(),
                    "Args")) {
-        //  Exp -> ID LP Args RP (s(a,b,c) | write(a) 有参函数调用)
+        //  Exp -> ID LP Args RP 
         string id = string(node->children[0]->char_value);
         Node* Args = node->children[2];
         if (id == "write") {
@@ -581,8 +612,13 @@ void translate_Exp(Node* node, string place){
         } else {
             vector<string> arg_list;
             translate_Args(Args, arg_list);
-            for (auto i : arg_list) {
-                Args->ir.push_back("ARG " + i);
+            for (string i : arg_list) {
+                auto it = std::find(arr_list.begin(), arr_list.end(), i);
+                if(obj_class_map.count(i) > 0 || (it != arr_list.end())){
+                    Args->ir.push_back("ARG &" + i);
+                }else {
+                    Args->ir.push_back("ARG " + i);
+                }
             }
             concatenate_ir(node, Args);
             node->ir.push_back(place + " := CALL " + id);
@@ -597,47 +633,38 @@ void translate_Exp(Node* node, string place){
 
     else if (node->nodes_num == 4 &&
              !strcmp(node->children[1]->name.c_str(), "LB")) {
-        // TODO: Exp ->  Exp LB Exp RB  (Exp [Exp])
-        // array
-        // string id =
-        //     string(node->child_first_ptr->node->child_first_ptr->node->name)
-        //         .substr(4);
-        // string offset_value;
+        // Exp ->  Exp LB Exp RB  (Exp [Exp])
+        string id = string(node->children[0]->children[0]->char_value);
+        string offset = new_place();
+        Node* Exp2 = node->children[2];
+        translate_Exp(Exp2, offset);
+        concatenate_ir(node, Exp2);
+        string tp1 = new_place();
+        string tp2 = new_place();
+        node->ir.push_back(tp1 + " := " + offset + " * #4");
+        
+        auto it = std::find(arr_list.begin(), arr_list.end(), id);
+        if(it != arr_list.end()){
+            node->ir.push_back(tp2 + " := &" + id + " + " + tp1);
+        }else {
+            node->ir.push_back(tp2 + " := " + id + " + " + tp1);
+        }
+        node->ir.push_back(tp2 + " := &" + id + " + " + tp1);
+        node->ir.push_back(place + " := *" + tp2);
 
-        // string offset = new_place();
-        // if (!memcmp(node->child_first_ptr->next_child->next_child->node
-        //                 ->child_first_ptr->node->name,
-        //             "INT", 3)) {
-        //     offset_value = string(node->child_first_ptr->next_child->next_child
-        //                               ->node->child_first_ptr->node->name)
-        //                        .substr(5);
-        //     node->ir.push_back(offset + " := #" + offset_value + " * #4");
-        // } else {
-        //     offset_value = string(node->child_first_ptr->next_child->next_child
-        //                               ->node->child_first_ptr->node->name)
-        //                        .substr(4);
-        //     node->ir.push_back(offset + " := " + offset_value + " * #4");
-        // }
-
-        // string address = new_place();
-        // node->ir.push_back(address + " := &" + id + " + " + offset);
-
-        // node->ir.push_back(place + " := *" + address);
 
     } else if (node->nodes_num == 3 &&
                !strcmp(node->children[1]->name.c_str(), "DOT")) {
-        // TODO: struct
-        // string id =
-        //     string(node->child_first_ptr->node->child_first_ptr->node->name)
-        //         .substr(4);
-        // string variable =
-        //     string(node->child_first_ptr->next_child->next_child->node->name)
-        //         .substr(4);
-        // auto offset = struct_map[type_map[id]][variable];
-        // string tp = new_place();
-        // node->ir.push_back(tp + " := &" + id + " + #" + to_string(offset * 4));
-        // node->ir.push_back(place + " := *" + tp);
-
+        string obj_name = string(node->children[0]->children[0]->char_value);
+        string field_name = string(node->children[2]->char_value);
+        auto offset = class_field_map[obj_class_map[obj_name]][field_name];
+        string tp = new_place();
+        if(obj_class_map.count(obj_name) > 0){
+            node->ir.push_back(tp + " := &" + obj_name + " + #" + to_string(offset * 4));
+        }else {
+           node->ir.push_back(tp + " := " + obj_name + " + #" + to_string(offset * 4));
+        }
+        node->ir.push_back(place + " := *" + tp);
     } else {
         printf("Not implemented");
     }
@@ -648,15 +675,23 @@ void translate_Args(Node* node, vector<string>& arg_list) {
     if (node->nodes_num == 1) {
         string tp = new_place();
         Node* Exp = node->children[0];
-        translate_Exp(Exp, tp);
-        arg_list.insert(arg_list.begin(), tp);
+        if(Exp->children[0]->nodetype == Id){
+            arg_list.insert(arg_list.begin(), Exp->children[0]->char_value);
+        }else{
+            translate_Exp(Exp, tp); 
+            arg_list.insert(arg_list.begin(), tp);
+        };
         concatenate_ir(node, Exp);
     } else {
         string tp = new_place();
         Node* Exp = node->children[0];
         Node* Args = node->children[2];
-        translate_Exp(Exp, tp);
-        arg_list.insert(arg_list.begin(), tp);
+        if(Exp->children[0]->nodetype == Id){
+            arg_list.insert(arg_list.begin(), Exp->children[0]->char_value);
+        }else{
+            translate_Exp(Exp, tp);
+            arg_list.insert(arg_list.begin(), tp);
+        }
         translate_Args(Args, arg_list);
         concatenate_ir(node, Exp, Args);
     }

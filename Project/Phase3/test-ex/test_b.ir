@@ -1,0 +1,24 @@
+FUNCTION test :
+PARAM a
+t3 := #1 * #4
+t4 := a + t3
+*t4 := #111
+RETURN #0
+FUNCTION main :
+DEC arr 40
+t9 := #1 * #4
+t10 := &arr + t9
+*t10 := #1
+t15 := #1 * #4
+t16 := &arr + t15
+t16 := &arr + t15
+t13 := *t16
+WRITE t13
+ARG &arr
+t17 := CALL test
+t22 := #1 * #4
+t23 := &arr + t22
+t23 := &arr + t22
+t20 := *t23
+WRITE t20
+RETURN #0

@@ -10,6 +10,15 @@ unordered_map<string, SemanticType *> symbol_table;
 // Program : ExtDefList {$$ = new Node("Program", 1, @$.first_line, $1); if(has_error == 0) {semantic_analyze($$);}}
 void semantic_analyze(Node *program)
 {
+    // Initialize read function type (no parameters, returns int)
+    ParamList *read_params = nullptr; // read has no parameters
+    SemanticType *read_type = new SemanticType(Category::FUNCTION, new ParamList("", new SemanticType(Category::PRIMITIVE, NodeType::Int), read_params));
+    symbol_table["read"] = read_type;
+
+    // Initialize write function type (one integer parameter, no return value)
+    ParamList *write_params = new ParamList("param", new SemanticType(Category::PRIMITIVE, NodeType::Int), nullptr);
+    SemanticType *write_type = new SemanticType(Category::FUNCTION, new ParamList("", nullptr, write_params)); // no return type for write
+    symbol_table["write"] = write_type;
     
     analyze_ext_def_list(nextNode(program));
 }

@@ -1,0 +1,19 @@
+FUNCTION test :
+PARAM a
+t2 := a + #0
+*t2 := #11111
+RETURN #0
+FUNCTION main :
+DEC c1 8
+DEC c2 8
+t6 := &c1 + #0
+*t6 := #111
+t10 := &c1 + #0
+t9 := *t10
+WRITE t9
+ARG &c1
+t11 := CALL test
+t15 := &c1 + #0
+t14 := *t15
+WRITE t14
+RETURN #0
